@@ -3,12 +3,12 @@
     <type>org.netbeans.modules.j2ee.earproject</type>
     <configuration>
         <data xmlns="http://www.netbeans.org/ns/j2ee-earproject/2">
-            <name>DossierFinalEnterpriseApplication</name>
+            <name>EARApplicationFinale</name>
             <minimum-ant-version>1.6.5</minimum-ant-version>
             <web-module-libraries/>
             <web-module-additional-libraries>
                 <library>
-                    <file>${reference.EJB2-ejb.dist-ear}</file>
+                    <file>${reference.EARApplicationFinale-ejb.dist-ear}</file>
                     <path-in-war>/</path-in-war>
                 </library>
                 <library>
@@ -27,7 +27,7 @@
                 <id>j2ee-module-car</id>
             </reference>
             <reference>
-                <foreign-project>EJB2-ejb</foreign-project>
+                <foreign-project>EARApplicationFinale-ejb</foreign-project>
                 <artifact-type>j2ee_ear_archive</artifact-type>
                 <script>build.xml</script>
                 <target>dist-ear</target>
