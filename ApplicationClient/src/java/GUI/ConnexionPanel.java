@@ -6,6 +6,7 @@
 package GUI;
 
 import EJBApplicFinal.EJB2Remote;
+import java.awt.event.KeyEvent;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.naming.Context;
@@ -23,6 +24,7 @@ public class ConnexionPanel extends javax.swing.JPanel {
      */
     public ConnexionPanel() {
         initComponents();
+        errorLabel.setVisible(false);
     }
 
     /**
@@ -51,15 +53,19 @@ public class ConnexionPanel extends javax.swing.JPanel {
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel1.setText("Mot de passe : ");
 
-        passwordField.setText("jPasswordField1");
-
         connexionButton.setText("Connexion");
         connexionButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 connexionButtonActionPerformed(evt);
             }
         });
+        connexionButton.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                connexionButtonKeyPressed(evt);
+            }
+        });
 
+        errorLabel.setForeground(new java.awt.Color(255, 0, 0));
         errorLabel.setText("jLabel2");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -108,9 +114,47 @@ public class ConnexionPanel extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void login()
+    {
+        errorLabel.setVisible(false);
+        
+        if(loginTextField.getText().isEmpty())
+        {
+            errorLabel.setText("Vous devez préciser un login");
+            errorLabel.setVisible(true);
+            return;
+        }
+        
+        if(passwordField.getPassword().length == 0)
+        {
+            errorLabel.setText("Vous devez préciser un mot de passe ");
+            errorLabel.setVisible(true);
+            return;
+        }
+        
+        if(!lookupEJB2Remote().login(loginTextField.getText(), passwordField.getPassword()))
+        {
+            errorLabel.setText("Login ou mot de passe invalide");
+            errorLabel.setVisible(true);
+        }
+    }
+    
+    
+    //Clique sur le bouton login
     private void connexionButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_connexionButtonActionPerformed
-        System.err.println(lookupEJB2Remote().login("jerome", "fink"));
+        login();
     }//GEN-LAST:event_connexionButtonActionPerformed
+    
+    
+    //Si la touche enter est préssée lorsque le bouton est séléectionné
+    private void connexionButtonKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_connexionButtonKeyPressed
+        
+        //Si la touche pressée n'est pas enter
+        if(evt.getKeyCode() != KeyEvent.VK_ENTER)
+            return;
+        
+        login();
+    }//GEN-LAST:event_connexionButtonKeyPressed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

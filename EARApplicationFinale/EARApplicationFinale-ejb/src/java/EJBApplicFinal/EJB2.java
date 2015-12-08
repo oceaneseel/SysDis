@@ -5,6 +5,7 @@
  */
 package EJBApplicFinal;
 
+import java.util.Arrays;
 import javax.ejb.Stateless;
 
 /**
@@ -15,9 +16,11 @@ import javax.ejb.Stateless;
 public class EJB2 implements EJB2Remote {
 
     @Override
-    public boolean login(String login, String password) {
+    public boolean login(String login, char[] password) {
         
-        if(login == "jerome" && login == "fink")
+        //TO DO accès BDD 
+        
+        if(login == "jerome" && Arrays.equals(password, new String("fink").toCharArray()))
             return true;
         
         return false;
