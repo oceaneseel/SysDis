@@ -120,14 +120,14 @@ public class ConnexionPanel extends javax.swing.JPanel {
         
         if(loginTextField.getText().isEmpty())
         {
-            errorLabel.setText("Vous devez préciser un login");
+            errorLabel.setText("Vous devez preciser un login");
             errorLabel.setVisible(true);
             return;
         }
         
         if(passwordField.getPassword().length == 0)
         {
-            errorLabel.setText("Vous devez préciser un mot de passe ");
+            errorLabel.setText("Vous devez prï¿½ciser un mot de passe ");
             errorLabel.setVisible(true);
             return;
         }
@@ -146,10 +146,10 @@ public class ConnexionPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_connexionButtonActionPerformed
     
     
-    //Si la touche enter est préssée lorsque le bouton est séléectionné
+    //Si la touche enter est prï¿½ssï¿½e lorsque le bouton est sï¿½lï¿½ectionnï¿½
     private void connexionButtonKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_connexionButtonKeyPressed
         
-        //Si la touche pressée n'est pas enter
+        //Si la touche pressï¿½e n'est pas enter
         if(evt.getKeyCode() != KeyEvent.VK_ENTER)
             return;
         

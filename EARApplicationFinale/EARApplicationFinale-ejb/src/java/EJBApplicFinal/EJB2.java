@@ -5,8 +5,11 @@
  */
 package EJBApplicFinal;
 
+import EntityClass.Client;
 import java.util.Arrays;
 import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
 /**
  *
@@ -14,13 +17,16 @@ import javax.ejb.Stateless;
  */
 @Stateless
 public class EJB2 implements EJB2Remote {
-
+    
+    @PersistenceContext(unitName = "DBbanque")
+    private EntityManager em;
+    
     @Override
     public boolean login(String login, char[] password) {
         
-        //TO DO accès BDD 
+        em.find(Client.class, login);
         
-        if(login == "jerome" && Arrays.equals(password, new String("fink").toCharArray()))
+        if("jerome".equals(login) && Arrays.equals(password, new String("fink").toCharArray()))
             return true;
         
         return false;
