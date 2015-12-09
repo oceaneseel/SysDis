@@ -5,6 +5,7 @@
  */
 package EJBApplicFinal;
 
+import EntityClass.Client;
 import javax.ejb.Remote;
 
 /**
@@ -14,7 +15,7 @@ import javax.ejb.Remote;
 @Remote
 public interface EJB2Remote {
 
-    boolean login(String login, char[] password);
+    Client login(String login, char[] password);
     
     
 }

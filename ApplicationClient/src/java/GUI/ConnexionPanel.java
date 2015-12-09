@@ -6,12 +6,14 @@
 package GUI;
 
 import EJBApplicFinal.EJB2Remote;
+import EntityClass.Client;
 import java.awt.event.KeyEvent;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
+import javax.swing.SwingUtilities;
 
 /**
  *
@@ -91,7 +93,7 @@ public class ConnexionPanel extends javax.swing.JPanel {
                                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                         .addComponent(loginTextField)
                                         .addComponent(passwordField, javax.swing.GroupLayout.DEFAULT_SIZE, 166, Short.MAX_VALUE)))))))
-                .addContainerGap(141, Short.MAX_VALUE))
+                .addContainerGap(139, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -110,7 +112,7 @@ public class ConnexionPanel extends javax.swing.JPanel {
                 .addComponent(connexionButton)
                 .addGap(46, 46, 46)
                 .addComponent(errorLabel)
-                .addContainerGap(208, Short.MAX_VALUE))
+                .addContainerGap(210, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -127,21 +129,29 @@ public class ConnexionPanel extends javax.swing.JPanel {
         
         if(passwordField.getPassword().length == 0)
         {
-            errorLabel.setText("Vous devez prï¿½ciser un mot de passe ");
+            errorLabel.setText("Vous devez préciser un mot de passe ");
             errorLabel.setVisible(true);
             return;
         }
         
-        if(!lookupEJB2Remote().login(loginTextField.getText(), passwordField.getPassword()))
+        //Tentative de connexion via EJB2
+        Client curClient = lookupEJB2Remote().login(loginTextField.getText(), passwordField.getPassword());
+        if(curClient == null)
         {
             errorLabel.setText("Login ou mot de passe invalide");
             errorLabel.setVisible(true);
+            return;
         }
-        else
-        {
-            errorLabel.setText("Login réussis");
-            errorLabel.setVisible(true);
-        }
+        
+        //Recuperation de la fenetre parente
+        frameClient fc = (frameClient)SwingUtilities.getWindowAncestor(this);
+        
+        fc.setCurUser(curClient);
+        fc.changeCard("virement");
+        
+        //On rafraichis le panneau virement avec les comptes du client connecté
+        fc.getVirementPanel().refresh();
+        
     }
     
     

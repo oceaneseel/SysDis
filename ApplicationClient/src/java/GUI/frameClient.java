@@ -5,11 +5,16 @@
  */
 package GUI;
 
+import EntityClass.Client;
+import java.awt.CardLayout;
+
 /**
  *
  * @author John
  */
 public class frameClient extends javax.swing.JFrame {
+    
+    private Client curUser;
 
     /**
      * Creates new form frameClient
@@ -17,6 +22,51 @@ public class frameClient extends javax.swing.JFrame {
     public frameClient() {
         initComponents();
     }
+    
+    
+    
+    public void setCurUser(Client c)
+    {
+        curUser = c;
+    }
+    
+    
+    public Client getUser()
+    {
+        return curUser;
+    }
+    
+    
+    
+    public void changeCard(String cardName)
+    {
+        CardLayout cl = (CardLayout)this.getContentPane().getLayout();
+        cl.show(this, cardName);
+    }
+    
+    
+    
+    public VirementPanel getVirementPanel()
+    {
+        return virementPanel1;
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -28,50 +78,19 @@ public class frameClient extends javax.swing.JFrame {
     private void initComponents() {
 
         connexionPanel1 = new GUI.ConnexionPanel();
+        virementPanel1 = new GUI.VirementPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new java.awt.CardLayout());
         getContentPane().add(connexionPanel1, "connexion");
+        getContentPane().add(virementPanel1, "virement");
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(frameClient.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(frameClient.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(frameClient.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(frameClient.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new frameClient().setVisible(true);
-            }
-        });
-    }
-
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private GUI.ConnexionPanel connexionPanel1;
+    private GUI.VirementPanel virementPanel1;
     // End of variables declaration//GEN-END:variables
 }

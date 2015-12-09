@@ -24,26 +24,19 @@ public class EJB2 implements EJB2Remote {
     private EntityManager em;
     
     @Override
-    public boolean login(String login, char[] password) {
-        
-        System.out.println(login +" ----- "+ password.toString());
-        
+    public Client login(String login, char[] password) {
+         
         Client clFound = em.find(Client.class, login);
         
         //Pas de clients trouvés
         if(clFound == null)
-        {
-            System.err.println("rien");
-            return false;
-        }
-        
-        System.out.println(clFound.getLogin() +" ----- "+ clFound.getPassword());
+            return null;
         
         //Test du mot de passe
         if(Arrays.equals(password,clFound.getPassword().toCharArray()))
-            return true;
+            return clFound;
         
-        return false;
+        return null;
     }
 
     // Add business logic below. (Right-click in editor and choose
