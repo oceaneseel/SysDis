@@ -24,9 +24,21 @@ public class EJB2 implements EJB2Remote {
     @Override
     public boolean login(String login, char[] password) {
         
-        em.find(Client.class, login);
+        System.out.println(login +" ----- "+ password.toString());
         
-        if("jerome".equals(login) && Arrays.equals(password, new String("fink").toCharArray()))
+        Client clFound = em.find(Client.class, login);
+        
+        //Pas de clients trouvés
+        if(clFound == null)
+        {
+            System.err.println("rien");
+            return false;
+        }
+        
+        System.out.println(clFound.getLogin() +" ----- "+ clFound.getPassword());
+        
+        //Test du mot de passe
+        if(Arrays.equals(password,clFound.getPassword().toCharArray()))
             return true;
         
         return false;

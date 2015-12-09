@@ -137,6 +137,11 @@ public class ConnexionPanel extends javax.swing.JPanel {
             errorLabel.setText("Login ou mot de passe invalide");
             errorLabel.setVisible(true);
         }
+        else
+        {
+            errorLabel.setText("Login réussis");
+            errorLabel.setVisible(true);
+        }
     }
     
     
