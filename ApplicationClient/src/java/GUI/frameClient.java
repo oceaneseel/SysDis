@@ -41,14 +41,14 @@ public class frameClient extends javax.swing.JFrame {
     public void changeCard(String cardName)
     {
         CardLayout cl = (CardLayout)this.getContentPane().getLayout();
-        cl.show(this, cardName);
+        cl.show(this.getContentPane(), cardName);
     }
     
     
     
     public VirementPanel getVirementPanel()
     {
-        return virementPanel1;
+        return virementPanel;
     }
     
     
@@ -77,20 +77,20 @@ public class frameClient extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        connexionPanel1 = new GUI.ConnexionPanel();
-        virementPanel1 = new GUI.VirementPanel();
+        connexionPanel2 = new GUI.ConnexionPanel();
+        virementPanel = new GUI.VirementPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new java.awt.CardLayout());
-        getContentPane().add(connexionPanel1, "connexion");
-        getContentPane().add(virementPanel1, "virement");
+        getContentPane().add(connexionPanel2, "connexion");
+        getContentPane().add(virementPanel, "virement");
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private GUI.ConnexionPanel connexionPanel1;
-    private GUI.VirementPanel virementPanel1;
+    private GUI.ConnexionPanel connexionPanel2;
+    private GUI.VirementPanel virementPanel;
     // End of variables declaration//GEN-END:variables
 }

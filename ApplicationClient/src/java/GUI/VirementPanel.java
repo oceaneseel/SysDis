@@ -5,8 +5,15 @@
  */
 package GUI;
 
+import EJBApplicFinal.EJB2Remote;
 import EntityClass.Compte;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.swing.SwingUtilities;
 
 /**
  *
@@ -21,12 +28,27 @@ public class VirementPanel extends javax.swing.JPanel {
      */
     public VirementPanel() {
         initComponents();
+        errorRefreshLabel.setVisible(false);
     }
     
     
     public void refresh()
     {
-        System.out.println("fraicheur");
+        errorRefreshLabel.setVisible(false);
+        
+        frameClient parentFrame = (frameClient)SwingUtilities.getWindowAncestor(this);
+        listCompte = new ArrayList(lookupEJB2Remote().getComptes(parentFrame.getUser()));
+        
+        if(listCompte == null)
+        {
+            errorRefreshLabel.setText("Aucun compte trouve");
+            errorRefreshLabel.setVisible(true);
+            return;
+        }
+        
+        for(Compte c : listCompte)
+            compteCombo.addItem(c);
+        
     }
     
     
@@ -55,17 +77,42 @@ public class VirementPanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        groupChoixDestinataire = new javax.swing.ButtonGroup();
         titreLabel = new javax.swing.JLabel();
         sourceLabel = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox();
+        compteCombo = new javax.swing.JComboBox();
         soldeLabel = new javax.swing.JLabel();
+        errorRefreshLabel = new javax.swing.JLabel();
+        autreCompte = new javax.swing.JRadioButton();
+        autreDestinataire = new javax.swing.JRadioButton();
+        destinataireLabel = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
 
         titreLabel.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         titreLabel.setText("Virement");
 
         sourceLabel.setText("Compte source : ");
 
+        compteCombo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                compteComboActionPerformed(evt);
+            }
+        });
+
         soldeLabel.setText("Solde : ");
+
+        errorRefreshLabel.setForeground(new java.awt.Color(255, 0, 0));
+        errorRefreshLabel.setText("jLabel1");
+
+        groupChoixDestinataire.add(autreCompte);
+        autreCompte.setText("Transfert sur un de vos compte");
+
+        groupChoixDestinataire.add(autreDestinataire);
+        autreDestinataire.setText("Compte d'un autre client");
+
+        destinataireLabel.setText("Destinataire : ");
+
+        jPanel1.setLayout(new java.awt.CardLayout());
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -78,32 +125,73 @@ public class VirementPanel extends javax.swing.JPanel {
                         .addComponent(titreLabel))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(40, 40, 40)
-                        .addComponent(sourceLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(46, 46, 46)
-                        .addComponent(soldeLabel)))
-                .addContainerGap(275, Short.MAX_VALUE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(errorRefreshLabel)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(sourceLabel)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(compteCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(46, 46, 46)
+                                .addComponent(soldeLabel))
+                            .addComponent(destinataireLabel)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(autreCompte)
+                                .addGap(72, 72, 72)
+                                .addComponent(autreDestinataire))
+                            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(182, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(titreLabel)
-                .addGap(38, 38, 38)
+                .addGap(13, 13, 13)
+                .addComponent(errorRefreshLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(sourceLabel)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(compteCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(soldeLabel))
-                .addContainerGap(331, Short.MAX_VALUE))
+                .addGap(22, 22, 22)
+                .addComponent(destinataireLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(autreCompte)
+                    .addComponent(autreDestinataire))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(268, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void compteComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_compteComboActionPerformed
+        Compte c = (Compte)compteCombo.getSelectedItem();
+        
+        soldeLabel.setText("Solde : " + c.getSolde() + " €");
+    }//GEN-LAST:event_compteComboActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JComboBox jComboBox1;
+    private javax.swing.JRadioButton autreCompte;
+    private javax.swing.JRadioButton autreDestinataire;
+    private javax.swing.JComboBox compteCombo;
+    private javax.swing.JLabel destinataireLabel;
+    private javax.swing.JLabel errorRefreshLabel;
+    private javax.swing.ButtonGroup groupChoixDestinataire;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel soldeLabel;
     private javax.swing.JLabel sourceLabel;
     private javax.swing.JLabel titreLabel;
     // End of variables declaration//GEN-END:variables
+
+    private EJB2Remote lookupEJB2Remote() {
+        try {
+            Context c = new InitialContext();
+            return (EJB2Remote) c.lookup("java:comp/env/EJB2");
+        } catch (NamingException ne) {
+            Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", ne);
+            throw new RuntimeException(ne);
+        }
+    }
 }

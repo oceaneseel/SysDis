@@ -30,7 +30,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "Compte.findAll", query = "SELECT c FROM Compte c"),
     @NamedQuery(name = "Compte.findById", query = "SELECT c FROM Compte c WHERE c.id = :id"),
-    @NamedQuery(name = "Compte.findBySolde", query = "SELECT c FROM Compte c WHERE c.solde = :solde")})
+    @NamedQuery(name = "Compte.findBySolde", query = "SELECT c FROM Compte c WHERE c.solde = :solde"),
+    @NamedQuery(name = "Compte.findByLogin", query = "SELECT c FROM Compte c WHERE c.loginClient = :login")})
 public class Compte implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -98,7 +99,7 @@ public class Compte implements Serializable {
 
     @Override
     public String toString() {
-        return "EntityClass.Compte[ id=" + id + " ]";
+        return id.toString();
     }
     
 }

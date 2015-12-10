@@ -6,6 +6,7 @@
 package EJBApplicFinal;
 
 import EntityClass.Client;
+import java.util.List;
 import javax.ejb.Remote;
 
 /**
@@ -16,6 +17,8 @@ import javax.ejb.Remote;
 public interface EJB2Remote {
 
     Client login(String login, char[] password);
+
+    List getComptes(Client c);
     
     
 }

@@ -41,4 +41,12 @@ public class EJB2 implements EJB2Remote {
 
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")
+
+    @Override
+    public List getComptes(Client c) {
+        
+        Query q = em.createNamedQuery("Compte.findByLogin").setParameter("login", c);
+        
+        return q.getResultList();
+    }
 }
