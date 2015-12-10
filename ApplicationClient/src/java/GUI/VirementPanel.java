@@ -7,6 +7,7 @@ package GUI;
 
 import EJBApplicFinal.EJB2Remote;
 import EntityClass.Compte;
+import java.awt.CardLayout;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -83,10 +84,12 @@ public class VirementPanel extends javax.swing.JPanel {
         compteCombo = new javax.swing.JComboBox();
         soldeLabel = new javax.swing.JLabel();
         errorRefreshLabel = new javax.swing.JLabel();
-        autreCompte = new javax.swing.JRadioButton();
-        autreDestinataire = new javax.swing.JRadioButton();
+        transfertRadio = new javax.swing.JRadioButton();
+        virementRadio = new javax.swing.JRadioButton();
         destinataireLabel = new javax.swing.JLabel();
-        jPanel1 = new javax.swing.JPanel();
+        panelOperation = new javax.swing.JPanel();
+        transfertPanel = new GUI.transfertPanel();
+        virementAutreComptePanel = new GUI.virementAutreComptePanel();
 
         titreLabel.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         titreLabel.setText("Virement");
@@ -104,15 +107,28 @@ public class VirementPanel extends javax.swing.JPanel {
         errorRefreshLabel.setForeground(new java.awt.Color(255, 0, 0));
         errorRefreshLabel.setText("jLabel1");
 
-        groupChoixDestinataire.add(autreCompte);
-        autreCompte.setText("Transfert sur un de vos compte");
+        groupChoixDestinataire.add(transfertRadio);
+        transfertRadio.setSelected(true);
+        transfertRadio.setText("Transfert sur un de vos compte");
+        transfertRadio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                transfertRadioActionPerformed(evt);
+            }
+        });
 
-        groupChoixDestinataire.add(autreDestinataire);
-        autreDestinataire.setText("Compte d'un autre client");
+        groupChoixDestinataire.add(virementRadio);
+        virementRadio.setText("Virement autre destinataire");
+        virementRadio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                virementRadioActionPerformed(evt);
+            }
+        });
 
         destinataireLabel.setText("Destinataire : ");
 
-        jPanel1.setLayout(new java.awt.CardLayout());
+        panelOperation.setLayout(new java.awt.CardLayout());
+        panelOperation.add(transfertPanel, "transfert");
+        panelOperation.add(virementAutreComptePanel, "virement");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -135,11 +151,11 @@ public class VirementPanel extends javax.swing.JPanel {
                                 .addComponent(soldeLabel))
                             .addComponent(destinataireLabel)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(autreCompte)
+                                .addComponent(transfertRadio)
                                 .addGap(72, 72, 72)
-                                .addComponent(autreDestinataire))
-                            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(182, Short.MAX_VALUE))
+                                .addComponent(virementRadio))
+                            .addComponent(panelOperation, javax.swing.GroupLayout.PREFERRED_SIZE, 532, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(42, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -157,11 +173,11 @@ public class VirementPanel extends javax.swing.JPanel {
                 .addComponent(destinataireLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(autreCompte)
-                    .addComponent(autreDestinataire))
+                    .addComponent(transfertRadio)
+                    .addComponent(virementRadio))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(268, Short.MAX_VALUE))
+                .addComponent(panelOperation, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(22, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -169,20 +185,42 @@ public class VirementPanel extends javax.swing.JPanel {
         Compte c = (Compte)compteCombo.getSelectedItem();
         
         soldeLabel.setText("Solde : " + c.getSolde() + " €");
+        
     }//GEN-LAST:event_compteComboActionPerformed
+
+    private void transfertRadioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_transfertRadioActionPerformed
+        
+        if(!transfertRadio.isSelected())
+            return;
+        
+        //Changement du panneau de transfert
+        transfertPanel.setTransfertPanel(listCompte, (Compte)compteCombo.getSelectedItem());
+        ((CardLayout)panelOperation.getLayout()).show(panelOperation, "transfert");
+               
+    }//GEN-LAST:event_transfertRadioActionPerformed
+
+    private void virementRadioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_virementRadioActionPerformed
+        if(!virementRadio.isSelected())
+            return;
+        
+        //Changement du panneau de transfert
+        ((CardLayout)panelOperation.getLayout()).show(panelOperation, "virement");
+    }//GEN-LAST:event_virementRadioActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JRadioButton autreCompte;
-    private javax.swing.JRadioButton autreDestinataire;
     private javax.swing.JComboBox compteCombo;
     private javax.swing.JLabel destinataireLabel;
     private javax.swing.JLabel errorRefreshLabel;
     private javax.swing.ButtonGroup groupChoixDestinataire;
-    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel panelOperation;
     private javax.swing.JLabel soldeLabel;
     private javax.swing.JLabel sourceLabel;
     private javax.swing.JLabel titreLabel;
+    private GUI.transfertPanel transfertPanel;
+    private javax.swing.JRadioButton transfertRadio;
+    private GUI.virementAutreComptePanel virementAutreComptePanel;
+    private javax.swing.JRadioButton virementRadio;
     // End of variables declaration//GEN-END:variables
 
     private EJB2Remote lookupEJB2Remote() {
