@@ -20,6 +20,6 @@ public interface EJB2Remote {
 
     List getComptes(Client c);
 
-    void sendMoney(int idSource, int idDest, float montant);
+    void sendMoney(int idSource, int idDest, double montant);
      
 }

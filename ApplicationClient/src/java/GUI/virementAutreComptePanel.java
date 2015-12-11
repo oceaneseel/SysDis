@@ -5,11 +5,23 @@
  */
 package GUI;
 
+import EJBApplicFinal.EJB2Remote;
+import EntityClass.Compte;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.ejb.EJBException;
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+
 /**
  *
  * @author Jerome
  */
 public class virementAutreComptePanel extends javax.swing.JPanel {
+    
+    private Compte source;
+    private VirementPanel panelPere;
 
     /**
      * Creates new form virementAutreComptePanel
@@ -17,7 +29,24 @@ public class virementAutreComptePanel extends javax.swing.JPanel {
     public virementAutreComptePanel() {
         initComponents();
         errorvirementLabel.setVisible(false);
+        okLabel.setVisible(false);
     }
+    
+    public void setPanel(Compte curCompte, VirementPanel father)
+    {   
+        source = curCompte;
+        panelPere = father;
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -35,6 +64,7 @@ public class virementAutreComptePanel extends javax.swing.JPanel {
         jLabel1 = new javax.swing.JLabel();
         transfertButton = new javax.swing.JButton();
         errorvirementLabel = new javax.swing.JLabel();
+        okLabel = new javax.swing.JLabel();
 
         destinataireLabel.setText("Compte destinataire : ");
 
@@ -53,6 +83,9 @@ public class virementAutreComptePanel extends javax.swing.JPanel {
         errorvirementLabel.setText("jLabel2");
         errorvirementLabel.setToolTipText("");
 
+        okLabel.setForeground(new java.awt.Color(0, 204, 0));
+        okLabel.setText("jLabel2");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -60,6 +93,7 @@ public class virementAutreComptePanel extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addGap(32, 32, 32)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(okLabel)
                     .addComponent(errorvirementLabel)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(destinataireLabel)
@@ -91,12 +125,62 @@ public class virementAutreComptePanel extends javax.swing.JPanel {
                 .addComponent(errorvirementLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
                 .addComponent(transfertButton)
-                .addGap(49, 49, 49))
+                .addGap(18, 18, 18)
+                .addComponent(okLabel)
+                .addGap(17, 17, 17))
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void transfertButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_transfertButtonActionPerformed
         
+        errorvirementLabel.setVisible(false);
+        okLabel.setVisible(false);
+        
+        int idDest;
+        double montantVirement;
+        
+        try
+        {
+            idDest = Integer.parseInt(destinataireTextField.getText());
+        }
+        catch(NumberFormatException ex)
+        {
+            errorvirementLabel.setText("ID de compte bancaire invalide");
+            errorvirementLabel.setVisible(true);
+            return;
+        }
+        
+        try
+        {
+            montantVirement = Double.parseDouble(montantTextField.getText());
+        }
+        catch(NumberFormatException ex)
+        {
+            errorvirementLabel.setText("Le montant entré est invalide");
+            errorvirementLabel.setVisible(true);
+            return;
+        }
+        
+        if(source == null)
+            System.err.println("minnnnce");
+        try
+        {
+            lookupEJB2Remote().sendMoney(source.getId(), idDest, montantVirement);
+        }
+        catch(EJBException ex)
+        {
+            errorvirementLabel.setText(ex.getMessage());
+            errorvirementLabel.setVisible(true);
+        }
+        
+        
+        //Mise à jour des combos dans le panel pere
+        okLabel.setText("Transfert reussi");
+        okLabel.setVisible(true);
+        
+        montantTextField.setText("");
+        destinataireTextField.setText("");
+        panelPere.refresh();
     }//GEN-LAST:event_transfertButtonActionPerformed
 
 
@@ -107,6 +191,17 @@ public class virementAutreComptePanel extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel montantLabel;
     private javax.swing.JTextField montantTextField;
+    private javax.swing.JLabel okLabel;
     private javax.swing.JButton transfertButton;
     // End of variables declaration//GEN-END:variables
+
+    private EJB2Remote lookupEJB2Remote() {
+        try {
+            Context c = new InitialContext();
+            return (EJB2Remote) c.lookup("java:comp/env/EJB2");
+        } catch (NamingException ne) {
+            Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", ne);
+            throw new RuntimeException(ne);
+        }
+    }
 }

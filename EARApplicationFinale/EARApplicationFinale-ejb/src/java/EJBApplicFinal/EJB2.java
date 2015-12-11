@@ -12,6 +12,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.ejb.EJBException;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -55,13 +56,24 @@ public class EJB2 implements EJB2Remote {
     }
 
     @Override
-    public void sendMoney(int idSource, int idDest, float montant) {
+    public void sendMoney(int idSource, int idDest, double montant) {
         
-        Compte src, dst;
+        Compte source, dest;
         
-        src = em.find(Compte.class, idSource);
-        dst = em.find(Compte.class, idDest);
+        source = em.find(Compte.class, idSource);
+        dest = em.find(Compte.class, idDest);
         
+        if(dest == null)
+            throw new EJBException("Le compte destinataire n'existe pas");
+        
+        if(source == null)
+            throw new EJBException("Le compte source n'existe pas");
+        
+        if(source.getSolde() < montant)
+            throw new EJBException("Pas assez d'argent sur le compte");
+
+        source.setSolde(source.getSolde() - montant);
+        dest.setSolde(dest.getSolde() + montant);
         
         return;
     }
