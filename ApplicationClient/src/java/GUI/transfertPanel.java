@@ -5,14 +5,22 @@
  */
 package GUI;
 
+import EJBApplicFinal.EJB2Remote;
 import EntityClass.Compte;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 
 /**
  *
  * @author Jerome
  */
 public class transfertPanel extends javax.swing.JPanel {
+    
+    private Compte source;
 
     /**
      * Creates new form transfertPanel
@@ -25,6 +33,8 @@ public class transfertPanel extends javax.swing.JPanel {
     public void setTransfertPanel(ArrayList<Compte> listCompte, Compte curCompte)
     {
         destinataireCombo.removeAllItems();
+        
+        source = curCompte;
         
         for(Compte c : listCompte)
         {
@@ -45,7 +55,7 @@ public class transfertPanel extends javax.swing.JPanel {
         destinataireCombo = new javax.swing.JComboBox();
         jLabel1 = new javax.swing.JLabel();
         montantLabel = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        montantTextField = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         transfertButton = new javax.swing.JButton();
         errorTransfertLabel = new javax.swing.JLabel();
@@ -54,9 +64,15 @@ public class transfertPanel extends javax.swing.JPanel {
 
         montantLabel.setText("Montant : ");
 
-        jLabel2.setText("€");
+        jLabel2.setText("â‚¬");
+        jLabel2.setToolTipText("");
 
-        transfertButton.setText("Transférer");
+        transfertButton.setText("TransfÃ©rer");
+        transfertButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                transfertButtonActionPerformed(evt);
+            }
+        });
 
         errorTransfertLabel.setForeground(new java.awt.Color(255, 0, 0));
         errorTransfertLabel.setText("jLabel3");
@@ -73,7 +89,7 @@ public class transfertPanel extends javax.swing.JPanel {
                         .addGroup(layout.createSequentialGroup()
                             .addComponent(montantLabel)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(montantTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(jLabel2))
                         .addGroup(layout.createSequentialGroup()
@@ -93,7 +109,7 @@ public class transfertPanel extends javax.swing.JPanel {
                 .addGap(34, 34, 34)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(montantLabel)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(montantTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2))
                 .addGap(18, 18, 18)
                 .addComponent(errorTransfertLabel)
@@ -103,14 +119,48 @@ public class transfertPanel extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void transfertButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_transfertButtonActionPerformed
+        errorTransfertLabel.setVisible(false);
+        
+        Compte destination;
+        destination = (Compte)destinataireCombo.getSelectedItem();
+        
+        float montantTransfert = 0;
+        
+        try
+        {
+            montantTransfert = Float.parseFloat(montantTextField.getText());
+        }
+        catch(NumberFormatException ex)
+        {
+            errorTransfertLabel.setText("Montant invalide");
+            errorTransfertLabel.setVisible(true);
+            ex.printStackTrace();
+            return;
+        }
+        
+        lookupEJB2Remote().sendMoney(source.getId(), destination.getId(), montantTransfert);
+        
+    }//GEN-LAST:event_transfertButtonActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox destinataireCombo;
     private javax.swing.JLabel errorTransfertLabel;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JLabel montantLabel;
+    private javax.swing.JTextField montantTextField;
     private javax.swing.JButton transfertButton;
     // End of variables declaration//GEN-END:variables
+
+    private EJB2Remote lookupEJB2Remote() {
+        try {
+            Context c = new InitialContext();
+            return (EJB2Remote) c.lookup("java:comp/env/EJB2");
+        } catch (NamingException ne) {
+            Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", ne);
+            throw new RuntimeException(ne);
+        }
+    }
 }

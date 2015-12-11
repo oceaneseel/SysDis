@@ -6,8 +6,12 @@
 package EJBApplicFinal;
 
 import EntityClass.Client;
+import EntityClass.Compte;
+import Exception.notEnoughMoney;
 import java.util.Arrays;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -49,4 +53,17 @@ public class EJB2 implements EJB2Remote {
         
         return q.getResultList();
     }
+
+    @Override
+    public void sendMoney(int idSource, int idDest, float montant) {
+        
+        Compte src, dst;
+        
+        src = em.find(Compte.class, idSource);
+        dst = em.find(Compte.class, idDest);
+        
+        
+        return;
+    }
+ 
 }

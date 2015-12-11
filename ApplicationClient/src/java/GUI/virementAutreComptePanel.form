@@ -85,8 +85,11 @@
     </Component>
     <Component class="javax.swing.JButton" name="transfertButton">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Transf&#xe9;rer"/>
+        <Property name="text" type="java.lang.String" value="Transferer"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="transfertButtonActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="errorvirementLabel">
       <Properties>

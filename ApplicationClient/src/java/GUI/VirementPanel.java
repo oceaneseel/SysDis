@@ -184,8 +184,8 @@ public class VirementPanel extends javax.swing.JPanel {
     private void compteComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_compteComboActionPerformed
         Compte c = (Compte)compteCombo.getSelectedItem();
         
-        soldeLabel.setText("Solde : " + c.getSolde() + " €");
-        
+        soldeLabel.setText("Solde : " + String.format("%.2f", c.getSolde()) + " â‚¬");
+        transfertPanel.setTransfertPanel(listCompte, c);
     }//GEN-LAST:event_compteComboActionPerformed
 
     private void transfertRadioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_transfertRadioActionPerformed
@@ -194,7 +194,6 @@ public class VirementPanel extends javax.swing.JPanel {
             return;
         
         //Changement du panneau de transfert
-        transfertPanel.setTransfertPanel(listCompte, (Compte)compteCombo.getSelectedItem());
         ((CardLayout)panelOperation.getLayout()).show(panelOperation, "transfert");
                
     }//GEN-LAST:event_transfertRadioActionPerformed

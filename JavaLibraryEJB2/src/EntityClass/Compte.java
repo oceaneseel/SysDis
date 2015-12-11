@@ -41,7 +41,7 @@ public class Compte implements Serializable {
     @Column(name = "ID")
     private Integer id;
     @Column(name = "SOLDE")
-    private Integer solde;
+    private Float solde;
     @JoinColumn(name = "LOGIN_CLIENT", referencedColumnName = "LOGIN")
     @ManyToOne
     private Client loginClient;
@@ -61,11 +61,11 @@ public class Compte implements Serializable {
         this.id = id;
     }
 
-    public Integer getSolde() {
+    public Float getSolde() {
         return solde;
     }
 
-    public void setSolde(Integer solde) {
+    public void setSolde(Float solde) {
         this.solde = solde;
     }
 

@@ -40,9 +40,14 @@ public class virementAutreComptePanel extends javax.swing.JPanel {
 
         montantLabel.setText("Montant : ");
 
-        jLabel1.setText("€");
+        jLabel1.setText("â‚¬");
 
-        transfertButton.setText("Transférer");
+        transfertButton.setText("Transferer");
+        transfertButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                transfertButtonActionPerformed(evt);
+            }
+        });
 
         errorvirementLabel.setForeground(new java.awt.Color(255, 0, 0));
         errorvirementLabel.setText("jLabel2");
@@ -89,6 +94,10 @@ public class virementAutreComptePanel extends javax.swing.JPanel {
                 .addGap(49, 49, 49))
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    private void transfertButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_transfertButtonActionPerformed
+        
+    }//GEN-LAST:event_transfertButtonActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

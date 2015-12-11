@@ -129,7 +129,7 @@ public class ConnexionPanel extends javax.swing.JPanel {
         
         if(passwordField.getPassword().length == 0)
         {
-            errorLabel.setText("Vous devez préciser un mot de passe ");
+            errorLabel.setText("Vous devez prÃ©ciser un mot de passe ");
             errorLabel.setVisible(true);
             return;
         }
@@ -149,7 +149,7 @@ public class ConnexionPanel extends javax.swing.JPanel {
         fc.setCurUser(curClient);
         fc.changeCard("virement");
         
-        //On rafraichis le panneau virement avec les comptes du client connecté
+        //On rafraichis le panneau virement avec les comptes du client connectÃ©
         fc.getVirementPanel().refresh();
         
     }
