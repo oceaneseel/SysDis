@@ -7,13 +7,19 @@ package EJBApplicFinal;
 
 import EntityClass.Client;
 import EntityClass.Compte;
-import java.security.Principal;
 import java.util.Arrays;
 import java.util.List;
 import javax.annotation.Resource;
 import javax.ejb.EJBException;
 import javax.ejb.SessionContext;
 import javax.ejb.Stateless;
+import javax.jms.JMSException;
+import javax.jms.Session;
+import javax.jms.Topic;
+import javax.jms.TopicConnection;
+import javax.jms.TopicConnectionFactory;
+import javax.jms.TopicPublisher;
+import javax.jms.TopicSession;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
@@ -28,6 +34,15 @@ public class EJB2 implements EJB2Remote {
     
     @PersistenceContext(unitName = "DBbanque")
     private EntityManager em;
+    
+    //Ressource nécessaires au topic
+    @Resource(mappedName = "jms/javaee7/TopicConnectionFactory")
+    private static TopicConnectionFactory topicConnectionFactory;
+    
+    @Resource(mappedName = "jms/javaee7/Topic")
+    private static Topic topic;
+    
+    private TopicPublisher tp = null;
     
     @Override
     public Client login(String login, char[] password) {
@@ -79,7 +94,24 @@ public class EJB2 implements EJB2Remote {
         source.setSolde(source.getSolde() - montant);
         dest.setSolde(dest.getSolde() + montant);
         
-        return;
+    }
+    
+    private TopicPublisher getTopicPublisher()
+    {
+        if(tp == null)
+        {
+            try {
+                TopicConnection connection = topicConnectionFactory.createTopicConnection();
+                connection.start();
+                TopicSession ts = connection.createTopicSession(false, Session.AUTO_ACKNOWLEDGE);
+                
+                tp = ts.createPublisher(topic);
+            } catch (JMSException ex) {
+                ex.printStackTrace();
+            }  
+        }
+        
+        return tp;
     }
  
 }
