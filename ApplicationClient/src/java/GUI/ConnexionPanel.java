@@ -13,6 +13,8 @@ import java.util.logging.Logger;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
+import javax.security.auth.login.LoginContext;
+import javax.security.auth.login.LoginException;
 import javax.swing.SwingUtilities;
 
 /**
@@ -120,6 +122,18 @@ public class ConnexionPanel extends javax.swing.JPanel {
     {
         errorLabel.setVisible(false);
         
+        /*LoginContext lc;
+        try {
+            lc = new LoginContext("fileRealm");
+            //lc.login();
+        } catch (LoginException ex) {
+            errorLabel.setText("Login ou mot de passe invalide");
+            errorLabel.setVisible(true);
+            ex.printStackTrace();
+            return;
+        }*/
+        
+        
         if(loginTextField.getText().isEmpty())
         {
             errorLabel.setText("Vous devez preciser un login");
@@ -129,7 +143,7 @@ public class ConnexionPanel extends javax.swing.JPanel {
         
         if(passwordField.getPassword().length == 0)
         {
-            errorLabel.setText("Vous devez préciser un mot de passe ");
+            errorLabel.setText("Vous devez preciser un mot de passe ");
             errorLabel.setVisible(true);
             return;
         }

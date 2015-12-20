@@ -7,12 +7,12 @@ package EJBApplicFinal;
 
 import EntityClass.Client;
 import EntityClass.Compte;
-import Exception.notEnoughMoney;
+import java.security.Principal;
 import java.util.Arrays;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import javax.annotation.Resource;
 import javax.ejb.EJBException;
+import javax.ejb.SessionContext;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -24,6 +24,7 @@ import javax.persistence.Query;
  */
 @Stateless
 public class EJB2 implements EJB2Remote {
+    @Resource SessionContext ctx;
     
     @PersistenceContext(unitName = "DBbanque")
     private EntityManager em;
@@ -31,8 +32,10 @@ public class EJB2 implements EJB2Remote {
     @Override
     public Client login(String login, char[] password) {
          
-        System.out.println("tentative connexion : " + login);
         Client clFound = em.find(Client.class, login);
+        
+        if(ctx.isCallerInRole("client"))
+            System.out.println("un client");
         
         //Pas de clients trouvés
         if(clFound == null)
@@ -40,10 +43,7 @@ public class EJB2 implements EJB2Remote {
         
         //Test du mot de passe
         if(Arrays.equals(password,clFound.getPassword().toCharArray()))
-        {
-            System.out.println("ok : " + login);
             return clFound;
-        }
         
         return null;
     }
