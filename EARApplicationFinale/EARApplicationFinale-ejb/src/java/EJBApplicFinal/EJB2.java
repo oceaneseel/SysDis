@@ -13,13 +13,10 @@ import javax.annotation.Resource;
 import javax.ejb.EJBException;
 import javax.ejb.SessionContext;
 import javax.ejb.Stateless;
-import javax.jms.JMSException;
-import javax.jms.Session;
-import javax.jms.Topic;
-import javax.jms.TopicConnection;
-import javax.jms.TopicConnectionFactory;
-import javax.jms.TopicPublisher;
-import javax.jms.TopicSession;
+import javax.inject.Inject;
+import javax.jms.JMSConnectionFactory;
+import javax.jms.JMSContext;
+import javax.jms.Queue;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
@@ -35,18 +32,8 @@ public class EJB2 implements EJB2Remote {
     @PersistenceContext(unitName = "DBbanque")
     private EntityManager em;
     
-    //Ressource nécessaires au topic
-    @Resource(mappedName = "jms/javaee7/TopicConnectionFactory")
-    private static TopicConnectionFactory topicConnectionFactory;
-    
-    @Resource(mappedName = "jms/javaee7/Topic")
-    private static Topic topic;
-    
-    private TopicPublisher tp = null;
-    
     @Override
-    public Client login(String login, char[] password) {
-         
+    public Client login(String login, char[] password) {         
         Client clFound = em.find(Client.class, login);
         
         if(ctx.isCallerInRole("client"))
@@ -58,7 +45,9 @@ public class EJB2 implements EJB2Remote {
         
         //Test du mot de passe
         if(Arrays.equals(password,clFound.getPassword().toCharArray()))
+        {
             return clFound;
+        }
         
         return null;
     }
@@ -95,23 +84,4 @@ public class EJB2 implements EJB2Remote {
         dest.setSolde(dest.getSolde() + montant);
         
     }
-    
-    private TopicPublisher getTopicPublisher()
-    {
-        if(tp == null)
-        {
-            try {
-                TopicConnection connection = topicConnectionFactory.createTopicConnection();
-                connection.start();
-                TopicSession ts = connection.createTopicSession(false, Session.AUTO_ACKNOWLEDGE);
-                
-                tp = ts.createPublisher(topic);
-            } catch (JMSException ex) {
-                ex.printStackTrace();
-            }  
-        }
-        
-        return tp;
-    }
- 
 }
