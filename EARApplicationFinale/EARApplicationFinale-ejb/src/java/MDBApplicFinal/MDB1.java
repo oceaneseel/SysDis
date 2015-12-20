@@ -5,10 +5,14 @@
  */
 package MDBApplicFinal;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.ActivationConfigProperty;
 import javax.ejb.MessageDriven;
+import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.MessageListener;
+import javax.jms.TextMessage;
 
 /**
  *
@@ -28,7 +32,16 @@ public class MDB1 implements MessageListener {
     
     @Override
     public void onMessage(Message message) {
-        System.out.println("I'm alive");
+        
+        TextMessage tm = (TextMessage) message;
+        
+        try {
+            System.out.println(tm.getText());
+        } catch (JMSException ex) {
+            Logger.getLogger(MDB1.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        
     }
     
 }

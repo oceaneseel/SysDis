@@ -7,7 +7,10 @@ package EJBApplicFinal;
 
 import EntityClass.Client;
 import EntityClass.Compte;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import javax.annotation.Resource;
 import javax.ejb.EJBException;
@@ -44,11 +47,6 @@ public class EJB2 implements EJB2Remote {
     public Client login(String login, char[] password) {         
         Client clFound = em.find(Client.class, login);
         
-        sendJMSMessageToTopicBanque(login);
-        
-        if(ctx.isCallerInRole("client"))
-            System.out.println("un client");
-        
         //Pas de clients trouvés
         if(clFound == null)
             return null;
@@ -56,6 +54,13 @@ public class EJB2 implements EJB2Remote {
         //Test du mot de passe
         if(Arrays.equals(password,clFound.getPassword().toCharArray()))
         {
+            //Login ok : on envoit un message sur le topic pour mettre dans les logs
+            DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+            Date date = new Date();
+            
+            String log = "[" + dateFormat.format(date) + "]: Connexion du client : " + login;  
+            sendJMSMessageToTopicBanque(log);
+            
             return clFound;
         }
         
