@@ -135,20 +135,28 @@ public class ConnexionPanel extends javax.swing.JPanel {
         }
         
         //Tentative de connexion via EJB2
-        Client curClient = lookupEJB2Remote().login(loginTextField.getText(), passwordField.getPassword());
+        Client curClient;
+        try{
+            curClient = lookupEJB2Remote().login(loginTextField.getText(), passwordField.getPassword());
+        }
+        catch(Exception x)
+        {
+            x.printStackTrace();
+            return;
+        }
         if(curClient == null)
         {
             errorLabel.setText("Login ou mot de passe invalide");
             errorLabel.setVisible(true);
             return;
         }
-        
+
         //Recuperation de la fenetre parente
         frameClient fc = (frameClient)SwingUtilities.getWindowAncestor(this);
         
         fc.setCurUser(curClient);
         fc.changeCard("virement");
-        
+
         //On rafraichis le panneau virement avec les comptes du client connecté
         fc.getVirementPanel().refresh();
         

@@ -31,6 +31,7 @@ public class EJB2 implements EJB2Remote {
     @Override
     public Client login(String login, char[] password) {
          
+        System.out.println("tentative connexion : " + login);
         Client clFound = em.find(Client.class, login);
         
         //Pas de clients trouvés
@@ -39,7 +40,10 @@ public class EJB2 implements EJB2Remote {
         
         //Test du mot de passe
         if(Arrays.equals(password,clFound.getPassword().toCharArray()))
+        {
+            System.out.println("ok : " + login);
             return clFound;
+        }
         
         return null;
     }
