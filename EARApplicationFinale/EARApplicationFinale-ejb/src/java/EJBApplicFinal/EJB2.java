@@ -13,10 +13,6 @@ import javax.annotation.Resource;
 import javax.ejb.EJBException;
 import javax.ejb.SessionContext;
 import javax.ejb.Stateless;
-import javax.inject.Inject;
-import javax.jms.JMSConnectionFactory;
-import javax.jms.JMSContext;
-import javax.jms.Queue;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
@@ -27,14 +23,18 @@ import javax.persistence.Query;
  */
 @Stateless
 public class EJB2 implements EJB2Remote {
+
+    
     @Resource SessionContext ctx;
     
     @PersistenceContext(unitName = "DBbanque")
     private EntityManager em;
     
+    
     @Override
     public Client login(String login, char[] password) {         
         Client clFound = em.find(Client.class, login);
+       
         
         if(ctx.isCallerInRole("client"))
             System.out.println("un client");
@@ -84,4 +84,5 @@ public class EJB2 implements EJB2Remote {
         dest.setSolde(dest.getSolde() + montant);
         
     }
+
 }

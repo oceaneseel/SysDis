@@ -17,7 +17,7 @@ import javax.jms.MessageListener;
 @MessageDriven(activationConfig = {
     @ActivationConfigProperty(propertyName = "clientId", propertyValue = "jms/topicBanque"),
     @ActivationConfigProperty(propertyName = "destinationLookup", propertyValue = "jms/topicBanque"),
-    @ActivationConfigProperty(propertyName = "subscriptionDurability", propertyValue = "durable"),
+    @ActivationConfigProperty(propertyName = "subscriptionDurability", propertyValue = "Durable"),
     @ActivationConfigProperty(propertyName = "subscriptionName", propertyValue = "jms/topicBanque"),
     @ActivationConfigProperty(propertyName = "destinationType", propertyValue = "javax.jms.Topic")
 })
@@ -28,7 +28,7 @@ public class MDB1 implements MessageListener {
     
     @Override
     public void onMessage(Message message) {
-        System.out.println("i'm alive");
+        System.out.println("I'm alive");
     }
     
 }
