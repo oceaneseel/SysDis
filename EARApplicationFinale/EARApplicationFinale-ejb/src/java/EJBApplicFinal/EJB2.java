@@ -13,6 +13,10 @@ import javax.annotation.Resource;
 import javax.ejb.EJBException;
 import javax.ejb.SessionContext;
 import javax.ejb.Stateless;
+import javax.inject.Inject;
+import javax.jms.JMSConnectionFactory;
+import javax.jms.JMSContext;
+import javax.jms.Topic;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
@@ -23,6 +27,11 @@ import javax.persistence.Query;
  */
 @Stateless
 public class EJB2 implements EJB2Remote {
+    @Resource(mappedName = "jms/topicBanque")
+    private Topic topicBanque;
+    @Inject
+    @JMSConnectionFactory("java:comp/DefaultJMSConnectionFactory")
+    private JMSContext context;
 
     
     @Resource SessionContext ctx;
@@ -34,7 +43,8 @@ public class EJB2 implements EJB2Remote {
     @Override
     public Client login(String login, char[] password) {         
         Client clFound = em.find(Client.class, login);
-       
+        
+        sendJMSMessageToTopicBanque(login);
         
         if(ctx.isCallerInRole("client"))
             System.out.println("un client");
@@ -83,6 +93,10 @@ public class EJB2 implements EJB2Remote {
         source.setSolde(source.getSolde() - montant);
         dest.setSolde(dest.getSolde() + montant);
         
+    }
+
+    private void sendJMSMessageToTopicBanque(String messageData) {
+        context.createProducer().send(topicBanque, messageData);
     }
 
 }
