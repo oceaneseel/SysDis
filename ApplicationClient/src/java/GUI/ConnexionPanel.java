@@ -13,8 +13,6 @@ import java.util.logging.Logger;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
-import javax.security.auth.login.LoginContext;
-import javax.security.auth.login.LoginException;
 import javax.swing.SwingUtilities;
 
 /**
@@ -41,22 +39,13 @@ public class ConnexionPanel extends javax.swing.JPanel {
     private void initComponents() {
 
         titreLabel = new javax.swing.JLabel();
-        loginLabel = new javax.swing.JLabel();
-        loginTextField = new javax.swing.JTextField();
-        jLabel1 = new javax.swing.JLabel();
-        passwordField = new javax.swing.JPasswordField();
         connexionButton = new javax.swing.JButton();
         errorLabel = new javax.swing.JLabel();
 
         titreLabel.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
         titreLabel.setText("Connexion gestion compte");
 
-        loginLabel.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        loginLabel.setText("Login : ");
-
-        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel1.setText("Mot de passe : ");
-
+        connexionButton.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         connexionButton.setText("Connexion");
         connexionButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -70,7 +59,7 @@ public class ConnexionPanel extends javax.swing.JPanel {
         });
 
         errorLabel.setForeground(new java.awt.Color(255, 0, 0));
-        errorLabel.setText("jLabel2");
+        errorLabel.setText("jLabel1");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -82,19 +71,10 @@ public class ConnexionPanel extends javax.swing.JPanel {
                         .addGap(140, 140, 140)
                         .addComponent(titreLabel))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(195, 195, 195)
+                        .addGap(239, 239, 239)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(errorLabel)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel1)
-                                    .addComponent(loginLabel))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(connexionButton)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addComponent(loginTextField)
-                                        .addComponent(passwordField, javax.swing.GroupLayout.DEFAULT_SIZE, 166, Short.MAX_VALUE)))))))
+                            .addComponent(connexionButton, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(139, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -102,56 +82,21 @@ public class ConnexionPanel extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(titreLabel)
-                .addGap(58, 58, 58)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(loginLabel)
-                    .addComponent(loginTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(passwordField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(38, 38, 38)
-                .addComponent(connexionButton)
-                .addGap(46, 46, 46)
+                .addGap(101, 101, 101)
+                .addComponent(connexionButton, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(44, 44, 44)
                 .addComponent(errorLabel)
-                .addContainerGap(210, Short.MAX_VALUE))
+                .addContainerGap(234, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void login()
-    {
+    {   
         errorLabel.setVisible(false);
-        
-        /*LoginContext lc;
-        try {
-            lc = new LoginContext("fileRealm");
-            //lc.login();
-        } catch (LoginException ex) {
-            errorLabel.setText("Login ou mot de passe invalide");
-            errorLabel.setVisible(true);
-            ex.printStackTrace();
-            return;
-        }*/
-        
-        
-        if(loginTextField.getText().isEmpty())
-        {
-            errorLabel.setText("Vous devez preciser un login");
-            errorLabel.setVisible(true);
-            return;
-        }
-        
-        if(passwordField.getPassword().length == 0)
-        {
-            errorLabel.setText("Vous devez preciser un mot de passe ");
-            errorLabel.setVisible(true);
-            return;
-        }
-        
         //Tentative de connexion via EJB2
         Client curClient;
         try{
-            curClient = lookupEJB2Remote().login(loginTextField.getText(), passwordField.getPassword());
+            curClient = lookupEJB2Remote().login();
         }
         catch(Exception x)
         {
@@ -160,7 +105,7 @@ public class ConnexionPanel extends javax.swing.JPanel {
         }
         if(curClient == null)
         {
-            errorLabel.setText("Login ou mot de passe invalide");
+            errorLabel.setText("Vous n'etes pas enregistre dans la base de donnees");
             errorLabel.setVisible(true);
             return;
         }
@@ -197,10 +142,6 @@ public class ConnexionPanel extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton connexionButton;
     private javax.swing.JLabel errorLabel;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel loginLabel;
-    private javax.swing.JTextField loginTextField;
-    private javax.swing.JPasswordField passwordField;
     private javax.swing.JLabel titreLabel;
     // End of variables declaration//GEN-END:variables
 

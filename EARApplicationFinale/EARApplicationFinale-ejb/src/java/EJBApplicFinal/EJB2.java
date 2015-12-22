@@ -10,6 +10,7 @@ import EntityClass.Compte;
 import java.util.Arrays;
 import java.util.List;
 import javax.annotation.Resource;
+import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJBException;
 import javax.ejb.SessionContext;
 import javax.ejb.Stateless;
@@ -38,67 +39,22 @@ public class EJB2 implements EJB2Remote {
     @PersistenceContext(unitName = "DBbanque")
     private EntityManager em;
     
-    
+    @RolesAllowed("client")
     @Override
-    public Client login(String login, char[] password) {         
-        Client clFound = em.find(Client.class, login);
-        
-        //Remplissage de la BD//
-        /*
-        Client c1, c2;
-        Compte co1, co2, co3, co4;
-        
-        c1 =  new Client("je");
-        c1.setNom("Fink");
-        c1.setPassword("je");
-        c1.setPrenom("Jérôme");
-        c1.setType("CLIENT");
-        em.persist(c1);
-        
-        c2 = new Client("oce");
-        c2.setNom("Seel");
-        c2.setPassword("oce");
-        c2.setPrenom("Oceane");
-        em.persist(c2);
-        
-        co1 = new Compte();
-        co1.setLoginClient(c1);
-        co1.setSolde(20000000.00);
-        em.persist(co1);
-        
-        co2 = new Compte();
-        co2.setLoginClient(c1);
-        co2.setSolde(500.00);
-        em.persist(co2);
-        
-        co3 = new Compte();
-        co3.setLoginClient(c2);
-        co3.setSolde(20.00);
-        em.persist(co3);
-        
-        co4 = new Compte();
-        co4.setLoginClient(c2);
-        co4.setSolde(5000.00);
-        em.persist(co4);*/
+    public Client login() {         
+   
+        Client clFound = em.find(Client.class, ctx.getCallerPrincipal().getName());
 
         //Pas de clients trouvés
         if(clFound == null)
             return null;
-        
-        //Test du mot de passe
-        if(Arrays.equals(password,clFound.getPassword().toCharArray()))
-        {
-            //Login ok : on envoit un message sur le topic pour mettre dans les logs
-            sendJMSMessageToTopicBanque("login#"+login);     
-            return clFound;
-        }
-        
-        return null;
+
+        return clFound;
     }
 
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")
-
+    @RolesAllowed("client")
     @Override
     public List getComptes(Client c) {
         
@@ -106,7 +62,8 @@ public class EJB2 implements EJB2Remote {
         
         return q.getResultList();
     }
-
+    
+    @RolesAllowed("client")
     @Override
     public void sendMoney(int idSource, int idDest, double montant) {
         
@@ -141,6 +98,45 @@ public class EJB2 implements EJB2Remote {
 
     private void sendJMSMessageToTopicBanque(String messageData) {
         context.createProducer().send(topicBanque, messageData);
+    }
+    
+    private void remplirBD()
+    {
+        Client c1, c2;
+        Compte co1, co2, co3, co4;
+        
+        c1 =  new Client("je");
+        c1.setNom("Fink");
+        c1.setPassword("je");
+        c1.setPrenom("Jérôme");
+        c1.setType("CLIENT");
+        em.persist(c1);
+        
+        c2 = new Client("oce");
+        c2.setNom("Seel");
+        c2.setPassword("oce");
+        c2.setPrenom("Oceane");
+        em.persist(c2);
+        
+        co1 = new Compte();
+        co1.setLoginClient(c1);
+        co1.setSolde(20000000.00);
+        em.persist(co1);
+        
+        co2 = new Compte();
+        co2.setLoginClient(c1);
+        co2.setSolde(500.00);
+        em.persist(co2);
+        
+        co3 = new Compte();
+        co3.setLoginClient(c2);
+        co3.setSolde(20.00);
+        em.persist(co3);
+        
+        co4 = new Compte();
+        co4.setLoginClient(c2);
+        co4.setSolde(5000.00);
+        em.persist(co4);
     }
 
 }

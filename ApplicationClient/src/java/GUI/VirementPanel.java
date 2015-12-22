@@ -57,23 +57,7 @@ public class VirementPanel extends javax.swing.JPanel {
         virementAutreComptePanel.setPanel((Compte)compteCombo.getSelectedItem(), this);
         
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -97,6 +81,7 @@ public class VirementPanel extends javax.swing.JPanel {
         transfertPanel = new GUI.transfertPanel();
         virementAutreComptePanel = new GUI.virementAutreComptePanel();
         logoutButton = new javax.swing.JButton();
+        rafraichirButton = new javax.swing.JButton();
 
         titreLabel.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         titreLabel.setText("Virement");
@@ -144,6 +129,13 @@ public class VirementPanel extends javax.swing.JPanel {
             }
         });
 
+        rafraichirButton.setText("Rafraichir");
+        rafraichirButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rafraichirButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -151,19 +143,22 @@ public class VirementPanel extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addGap(40, 40, 40)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(errorRefreshLabel)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(sourceLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(compteCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(46, 46, 46)
-                        .addComponent(soldeLabel))
                     .addComponent(destinataireLabel)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(transfertRadio)
                         .addGap(72, 72, 72)
                         .addComponent(virementRadio))
-                    .addComponent(panelOperation, javax.swing.GroupLayout.PREFERRED_SIZE, 532, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(panelOperation, javax.swing.GroupLayout.PREFERRED_SIZE, 532, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(sourceLabel)
+                            .addComponent(errorRefreshLabel))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(compteCombo, 0, 117, Short.MAX_VALUE)
+                            .addComponent(rafraichirButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(46, 46, 46)
+                        .addComponent(soldeLabel)))
                 .addContainerGap(42, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addGap(244, 244, 244)
@@ -179,8 +174,10 @@ public class VirementPanel extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(titreLabel)
                     .addComponent(logoutButton))
-                .addGap(10, 10, 10)
-                .addComponent(errorRefreshLabel)
+                .addGap(6, 6, 6)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(errorRefreshLabel)
+                    .addComponent(rafraichirButton))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(sourceLabel)
@@ -194,7 +191,7 @@ public class VirementPanel extends javax.swing.JPanel {
                     .addComponent(virementRadio))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(panelOperation, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(22, Short.MAX_VALUE))
+                .addContainerGap(17, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -234,6 +231,10 @@ public class VirementPanel extends javax.swing.JPanel {
         fc.changeCard("connexion");
     }//GEN-LAST:event_logoutButtonActionPerformed
 
+    private void rafraichirButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rafraichirButtonActionPerformed
+        refresh();
+    }//GEN-LAST:event_rafraichirButtonActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox compteCombo;
@@ -242,6 +243,7 @@ public class VirementPanel extends javax.swing.JPanel {
     private javax.swing.ButtonGroup groupChoixDestinataire;
     private javax.swing.JButton logoutButton;
     private javax.swing.JPanel panelOperation;
+    private javax.swing.JButton rafraichirButton;
     private javax.swing.JLabel soldeLabel;
     private javax.swing.JLabel sourceLabel;
     private javax.swing.JLabel titreLabel;

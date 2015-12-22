@@ -16,7 +16,7 @@ import javax.ejb.Remote;
 @Remote
 public interface EJB2Remote {
 
-    Client login(String login, char[] password);
+    Client login();
 
     List getComptes(Client c);
 
