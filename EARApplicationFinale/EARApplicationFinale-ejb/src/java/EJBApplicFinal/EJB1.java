@@ -5,6 +5,9 @@
  */
 package EJBApplicFinal;
 
+import javax.annotation.Resource;
+import javax.annotation.security.RolesAllowed;
+import javax.ejb.SessionContext;
 import javax.ejb.Stateless;
 
 /**
@@ -13,11 +16,26 @@ import javax.ejb.Stateless;
  */
 @Stateless
 public class EJB1 implements EJB1Remote {
-
+    
+    @Resource SessionContext ctx;
+    
+    @RolesAllowed({"employe", "superviseur"})
     @Override
     public boolean login() {
-        return false;
+        
+        if(ctx.getCallerPrincipal().getName().equals("ANONYMOUS"))
+            return false;
+        
+        return true;
     }
 
+    @Override
+    public boolean creditRequest(double montant, float taux, int duree, double salaire, double charge) {
+        
+        
+        return true;
+    }
     
+    
+
 }

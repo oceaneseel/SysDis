@@ -7,7 +7,6 @@ package EJBApplicFinal;
 
 import EntityClass.Client;
 import EntityClass.Compte;
-import java.util.Arrays;
 import java.util.List;
 import javax.annotation.Resource;
 import javax.annotation.security.RolesAllowed;
