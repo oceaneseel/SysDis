@@ -48,6 +48,8 @@ public class EJB2 implements EJB2Remote {
         //Pas de clients trouvés
         if(clFound == null)
             return null;
+        
+        sendJMSMessageToTopicBanque("login#"+ctx.getCallerPrincipal().getName());
 
         return clFound;
     }
