@@ -32,7 +32,7 @@ public class EJB2 implements EJB2Remote {
     @Inject
     @JMSConnectionFactory("java:comp/DefaultJMSConnectionFactory")
     private JMSContext context;
-    
+ 
     @Resource SessionContext ctx;
     
     @PersistenceContext(unitName = "DBbanque")
@@ -142,4 +142,5 @@ public class EJB2 implements EJB2Remote {
     private void sendJMSMessageToTopicBanque(String messageData) {
         context.createProducer().send(topicBanque, messageData);
     }
+
 }
