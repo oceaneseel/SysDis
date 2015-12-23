@@ -21,7 +21,7 @@ import javax.swing.SwingUtilities;
  */
 public class creditPanel extends javax.swing.JPanel {
     
-    private int numDemande = 0;
+    private int idDemande = 0;
     private UUID idClient;
     
 
@@ -419,7 +419,9 @@ public class creditPanel extends javax.swing.JPanel {
         creditDemande.setSalaire(salaire);
         creditDemande.setTaux(taux);
         
-        lookupEJB1Remote().creditRequest(creditDemande, idClient);
+        lookupEJB1Remote().creditRequest(creditDemande, idClient, idDemande);
+        
+        idDemande++;
         
         
     }//GEN-LAST:event_demandeButtonActionPerformed

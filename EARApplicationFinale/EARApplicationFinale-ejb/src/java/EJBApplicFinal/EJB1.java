@@ -48,7 +48,7 @@ public class EJB1 implements EJB1Remote {
     
     @RolesAllowed("employe")
     @Override
-    public void creditRequest(Credit creditDemande, UUID idClient) {
+    public void creditRequest(Credit creditDemande, UUID idClient, int idDemande) {
         
         
         //Creation de la chaine à envoyer sur le topic :

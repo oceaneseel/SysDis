@@ -17,6 +17,6 @@ import javax.ejb.Remote;
 public interface EJB1Remote {
 
     boolean login();
-    void creditRequest(Credit creditDemande, UUID idClient);
+    void creditRequest(Credit creditDemande, UUID idClient, int idDemande);
     
 }
