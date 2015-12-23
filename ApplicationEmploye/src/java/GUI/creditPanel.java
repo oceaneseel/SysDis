@@ -419,7 +419,7 @@ public class creditPanel extends javax.swing.JPanel {
         creditDemande.setSalaire(salaire);
         creditDemande.setTaux(taux);
         
-        lookupEJB1Remote().creditRequest(creditDemande);
+        lookupEJB1Remote().creditRequest(creditDemande, idClient);
         
         
     }//GEN-LAST:event_demandeButtonActionPerformed

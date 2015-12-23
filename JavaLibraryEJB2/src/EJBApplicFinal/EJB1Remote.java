@@ -6,6 +6,7 @@
 package EJBApplicFinal;
 
 import EntityClass.Credit;
+import java.util.UUID;
 import javax.ejb.Remote;
 
 /**
@@ -16,6 +17,6 @@ import javax.ejb.Remote;
 public interface EJB1Remote {
 
     boolean login();
-    void creditRequest(Credit creditDemande);
+    void creditRequest(Credit creditDemande, UUID idClient);
     
 }

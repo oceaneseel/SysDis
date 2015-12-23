@@ -6,6 +6,7 @@
 package EJBApplicFinal;
 
 import EntityClass.Credit;
+import java.util.UUID;
 import javax.annotation.Resource;
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.SessionContext;
@@ -47,11 +48,13 @@ public class EJB1 implements EJB1Remote {
     
     @RolesAllowed("employe")
     @Override
-    public void creditRequest(Credit creditDemande) {
+    public void creditRequest(Credit creditDemande, UUID idClient) {
+        
         
         //Creation de la chaine à envoyer sur le topic :
         
         String messageTopic = "requestCredit";
+        messageTopic += "#" + idClient;
         messageTopic += "#" + creditDemande.getChargeCredit();
         messageTopic += "#" + creditDemande.getDuree();
         messageTopic += "#" + creditDemande.getInfosClient();
