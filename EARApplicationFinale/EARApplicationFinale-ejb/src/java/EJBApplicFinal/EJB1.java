@@ -75,7 +75,7 @@ public class EJB1 implements EJB1Remote {
             sendJMSMessageToTopicBanque(messageTopic);
         }
         
-        messageTopic += "#OUI";
+        messageTopic += "#OK";
     }
 
     public void persist(Object object) {
