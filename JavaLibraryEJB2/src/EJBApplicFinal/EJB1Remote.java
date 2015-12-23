@@ -5,6 +5,7 @@
  */
 package EJBApplicFinal;
 
+import EntityClass.Credit;
 import javax.ejb.Remote;
 
 /**
@@ -15,6 +16,6 @@ import javax.ejb.Remote;
 public interface EJB1Remote {
 
     boolean login();
-    boolean creditRequest(double montant, float taux, int duree, double salaire, double charge);
+    void creditRequest(Credit creditDemande);
     
 }

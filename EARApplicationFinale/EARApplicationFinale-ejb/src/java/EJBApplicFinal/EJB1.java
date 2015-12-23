@@ -5,10 +5,17 @@
  */
 package EJBApplicFinal;
 
+import EntityClass.Credit;
 import javax.annotation.Resource;
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.SessionContext;
 import javax.ejb.Stateless;
+import javax.inject.Inject;
+import javax.jms.JMSConnectionFactory;
+import javax.jms.JMSContext;
+import javax.jms.Topic;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
 /**
  *
@@ -16,6 +23,13 @@ import javax.ejb.Stateless;
  */
 @Stateless
 public class EJB1 implements EJB1Remote {
+    @Resource(mappedName = "jms/topicBanque")
+    private Topic topicBanque;
+    @Inject
+    @JMSConnectionFactory("java:comp/DefaultJMSConnectionFactory")
+    private JMSContext context;
+    @PersistenceContext(unitName = "DBbanque")
+    private EntityManager em;
     
     @Resource SessionContext ctx;
     
@@ -26,14 +40,50 @@ public class EJB1 implements EJB1Remote {
         if(ctx.getCallerPrincipal().getName().equals("ANONYMOUS"))
             return false;
         
+        sendJMSMessageToTopicBanque("loginEmp#"+ctx.getCallerPrincipal().getName());
+        
         return true;
     }
-
+    
+    @RolesAllowed("employe")
     @Override
-    public boolean creditRequest(double montant, float taux, int duree, double salaire, double charge) {
+    public void creditRequest(Credit creditDemande) {
         
+        //Creation de la chaine à envoyer sur le topic :
         
-        return true;
+        String messageTopic = "requestCredit";
+        messageTopic += "#" + creditDemande.getChargeCredit();
+        messageTopic += "#" + creditDemande.getDuree();
+        messageTopic += "#" + creditDemande.getInfosClient();
+        messageTopic += "#" + creditDemande.getMontant();
+        messageTopic += "#" + creditDemande.getSalaire();
+        messageTopic += "#" + creditDemande.getTaux();
+        
+        //Vérifications pour savoir si le crédit est accordé 
+        if(creditDemande.getMontant() > 250000)
+        {
+            //TODO topic pour prevenir superviseur
+            
+            messageTopic += "#NON";
+            sendJMSMessageToTopicBanque(messageTopic);
+        }
+        
+        if((creditDemande.getSalaire()/100*40) < creditDemande.getChargeCredit())
+        {
+            //TO DO topic pour le superviseur
+            messageTopic += "#NON";
+            sendJMSMessageToTopicBanque(messageTopic);
+        }
+        
+        messageTopic += "#OUI";
+    }
+
+    public void persist(Object object) {
+        em.persist(object);
+    }
+
+    private void sendJMSMessageToTopicBanque(String messageData) {
+        context.createProducer().send(topicBanque, messageData);
     }
     
     

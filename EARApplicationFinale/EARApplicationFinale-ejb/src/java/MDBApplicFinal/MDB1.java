@@ -23,7 +23,7 @@ import javax.persistence.PersistenceContext;
  * @author Jerome
  */
 @MessageDriven(activationConfig = {
-    @ActivationConfigProperty(propertyName = "clientId", propertyValue = "jms/topicBanque"),
+    @ActivationConfigProperty(propertyName = "clientId", propertyValue = "MDB1"),
     @ActivationConfigProperty(propertyName = "destinationLookup", propertyValue = "jms/topicBanque"),
     @ActivationConfigProperty(propertyName = "subscriptionDurability", propertyValue = "Durable"),
     @ActivationConfigProperty(propertyName = "subscriptionName", propertyValue = "jms/topicBanque"),
@@ -73,6 +73,15 @@ public class MDB1 implements MessageListener {
             case "sendMoney" :
                     logMessage += "Transfert de " + elemMessage[1] + " du compte " + elemMessage[2] + "au compte" + elemMessage[3];
                 break;
+                
+            case "loginEmp":
+                    logMessage += "L'employe " + elemMessage[1] + " vient de se connecter";
+                break;
+                
+            case "requestCredit":
+                    logMessage += "Demande de credit envoyee. Montant : " + elemMessage[5];
+                break;
+                
         }
         
         log.setMessage(logMessage);

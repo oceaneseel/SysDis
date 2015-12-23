@@ -5,7 +5,13 @@
  */
 package GUI;
 
+import EJBApplicFinal.EJB1Remote;
 import EntityClass.Credit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 import javax.swing.SwingUtilities;
 
 /**
@@ -406,6 +412,8 @@ public class creditPanel extends javax.swing.JPanel {
         creditDemande.setSalaire(salaire);
         creditDemande.setTaux(taux);
         
+        lookupEJB1Remote().creditRequest(creditDemande);
+        
         
     }//GEN-LAST:event_demandeButtonActionPerformed
 
@@ -439,4 +447,14 @@ public class creditPanel extends javax.swing.JPanel {
     private javax.swing.JLabel tauxLabel;
     private javax.swing.JTextField tauxTextField;
     // End of variables declaration//GEN-END:variables
+
+    private EJB1Remote lookupEJB1Remote() {
+        try {
+            Context c = new InitialContext();
+            return (EJB1Remote) c.lookup("java:comp/env/EJB1");
+        } catch (NamingException ne) {
+            Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", ne);
+            throw new RuntimeException(ne);
+        }
+    }
 }
