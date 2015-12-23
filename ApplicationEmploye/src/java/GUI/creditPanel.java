@@ -5,6 +5,7 @@
  */
 package GUI;
 
+import EntityClass.Credit;
 import javax.swing.SwingUtilities;
 
 /**
@@ -18,6 +19,69 @@ public class creditPanel extends javax.swing.JPanel {
      */
     public creditPanel() {
         initComponents();
+        errorLabel.setVisible(false);
+    }
+    
+    //Tous les champs ont il bien été remplis ?
+    private boolean checkEmptyField()
+    {       
+        if(nomTextField.getText().isEmpty())
+        {
+            displayError("Le nom du demandeur de crédit doit être indiqué");
+            return false;
+        }
+        
+        if(prenomTextField.getText().isEmpty())
+        {
+            displayError("Le prénom du demandeur de crédit doit être indiqué");
+            return false;
+        }
+            
+        if(adresseTextField.getText().isEmpty())
+        {
+            displayError("L'adresse du demandeur doit être indiquée");
+            return false;
+        }
+        
+        if(salaireTextField.getText().isEmpty())
+        {
+            displayError("Le salaire du demandeur doit être renseigné");
+            return false;
+        }
+        
+        if(chargeTextField.getText().isEmpty())
+        {
+            displayError("La charge de crédit du demandeur doit être renseignée");
+            return false;
+        }
+        
+        if(montantTextField.getText().isEmpty())
+        {
+            displayError("Le montant du crédit doit être renseigné");
+            return false;
+        }
+        
+        if(tauxTextField.getText().isEmpty())
+        {
+            displayError("Le taux annuel doit être indiqué");
+            return false;
+        }
+        
+        if(dureeTextField.getText().isEmpty())
+        {
+            displayError("La durée du crédit doit être renseignée");
+            return false;
+        }
+        
+        return true;
+    }
+    
+    
+    
+    private void displayError(String errorMessage)
+    {
+        errorLabel.setText(errorMessage);
+        errorLabel.setVisible(true);
     }
 
     /**
@@ -55,6 +119,7 @@ public class creditPanel extends javax.swing.JPanel {
         chargeLabel = new javax.swing.JLabel();
         chargeTextField = new javax.swing.JTextField();
         demandeButton = new javax.swing.JButton();
+        errorLabel = new javax.swing.JLabel();
 
         jScrollPane1.setViewportView(jList1);
 
@@ -98,53 +163,64 @@ public class creditPanel extends javax.swing.JPanel {
         chargeLabel.setText("Charge de crédits : ");
 
         demandeButton.setText("Envoyer la demande ");
+        demandeButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                demandeButtonActionPerformed(evt);
+            }
+        });
+
+        errorLabel.setForeground(new java.awt.Color(255, 0, 0));
+        errorLabel.setText("jLabel6");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(39, 39, 39)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1)
-                    .addComponent(informationSubTitle)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(nomLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(nomTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(37, 37, 37)
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(prenomTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(adresseLAbel)
-                    .addComponent(adresseTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 526, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(informationSubTitle1)
+                        .addGap(39, 39, 39)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1)
+                            .addComponent(informationSubTitle)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(nomLabel)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(nomTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(37, 37, 37)
+                                .addComponent(jLabel2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(prenomTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(adresseLAbel)
+                            .addComponent(adresseTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 526, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(informationSubTitle1)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(montantLabel)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(montantTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(tauxLabel)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(tauxTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel3)
+                                .addGap(18, 18, 18)
+                                .addComponent(dureeLabel)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(dureeTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel4))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel5)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(salaireTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(85, 85, 85)
+                                .addComponent(chargeLabel)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(chargeTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(errorLabel)))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(montantLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(montantTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(tauxLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(tauxTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel3)
-                        .addGap(18, 18, 18)
-                        .addComponent(dureeLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(dureeTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel4))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel5)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(salaireTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(85, 85, 85)
-                        .addComponent(chargeLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(chargeTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(204, 204, 204)
+                        .addGap(235, 235, 235)
                         .addComponent(demandeButton)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -187,11 +263,12 @@ public class creditPanel extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(adresseTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5)
-                    .addComponent(salaireTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(chargeLabel)
-                    .addComponent(chargeTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel5)
+                        .addComponent(salaireTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(chargeTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
                 .addComponent(informationSubTitle1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -204,9 +281,11 @@ public class creditPanel extends javax.swing.JPanel {
                     .addComponent(dureeLabel)
                     .addComponent(dureeTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel4))
-                .addGap(78, 78, 78)
+                .addGap(62, 62, 62)
                 .addComponent(demandeButton)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(errorLabel)
+                .addGap(49, 49, 49))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -215,6 +294,120 @@ public class creditPanel extends javax.swing.JPanel {
         frameEmploye fe = (frameEmploye)SwingUtilities.getWindowAncestor(this);
         fe.changeCard("connexion");
     }//GEN-LAST:event_deconnexionButtonActionPerformed
+    
+    
+    /*Création d'un objet credit et envois à l'EJB pour le traitement*/
+    private void demandeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_demandeButtonActionPerformed
+        
+        errorLabel.setVisible(false);
+        
+        //vérif si tous les chamsp sont remplis
+        if(!checkEmptyField())
+            return;
+        
+        
+        //transformation du texte en nombre
+        double montant, salaire, charge;
+        float taux;
+        int duree;
+        
+        try
+        {
+            salaire = Double.parseDouble(salaireTextField.getText());
+            
+            if(salaire < 0)
+            {
+                displayError("Le salaire doit être un nombre positif");
+                return;
+            }
+        }
+        catch(NumberFormatException nb)
+        {
+            displayError("Le salaire doit être un nombre positif");
+            return;
+        }
+        
+        
+        try
+        {
+            charge = Double.parseDouble(chargeTextField.getText());
+            
+            if(charge < 0)
+            {
+                displayError("Le montant des charges mensuelles doit être un nombre positif");
+                return;
+            }
+        }
+        catch(NumberFormatException nbe)
+        {
+            displayError("Le montant des charges mensuelles doit être un nombre positif");
+            return;
+        }
+        
+        
+        try
+        {
+            montant = Double.parseDouble(montantTextField.getText());
+            
+            if(montant < 0)
+            {
+                displayError("Le montant du crédit doit être un nombre positif");
+                return;
+            }
+            
+        }
+        catch(NumberFormatException nbe)
+        {
+            displayError("Le montant du crédit doit être un nombre positif");
+            return;
+        }
+        
+        try
+        {
+            taux = Float.parseFloat(tauxTextField.getText());
+            
+            if(taux < 0 || taux > 100)
+            {
+                displayError("Le taux annuel doit être un nombre compris entre 0 et 100");
+                return;
+            }
+        }
+        catch(NumberFormatException nbe)
+        {
+            displayError("Le taux annuel doit être un nombre compris entre 0 et 100");
+            return;
+        }
+        
+        try
+        {
+            duree =  Integer.parseInt(dureeTextField.getText());
+            
+            if(duree < 0  || duree > 100)
+            {
+                displayError("La durée du crédit doit être comprise entre 0 et 100 ans");
+                return;
+            }
+        }
+        catch(NumberFormatException nbe)
+        {
+            displayError("La durée du crédit doit être comprise entre 0 et 100 ans");
+            return;
+        }
+        
+        
+        //Maintenant les choses sérieuses 
+        
+        Credit creditDemande =  new Credit();
+        
+        creditDemande.setChargeCredit(charge);
+        creditDemande.setDuree(duree);
+        creditDemande.setInfosClient(prenomTextField.getText()+"  --  " + nomTextField.getText()+"  --  " + adresseTextField.getText());
+        creditDemande.setMontant(montant);
+        creditDemande.setSalaire(salaire);
+        creditDemande.setTaux(taux);
+        
+        
+    }//GEN-LAST:event_demandeButtonActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -227,6 +420,7 @@ public class creditPanel extends javax.swing.JPanel {
     private javax.swing.JButton demandeButton;
     private javax.swing.JLabel dureeLabel;
     private javax.swing.JTextField dureeTextField;
+    private javax.swing.JLabel errorLabel;
     private javax.swing.JLabel informationSubTitle;
     private javax.swing.JLabel informationSubTitle1;
     private javax.swing.JLabel jLabel1;

@@ -48,15 +48,15 @@ public class Credit implements Serializable {
     @Column(name = "INFOS_CLIENT")
     private String infosClient;
     @Column(name = "MONTANT")
-    private Integer montant;
+    private Double montant;
     @Column(name = "TAUX")
-    private Integer taux;
+    private Float taux;
     @Column(name = "DUREE")
     private Integer duree;
     @Column(name = "SALAIRE")
-    private Integer salaire;
+    private Double salaire;
     @Column(name = "CHARGE_CREDIT")
-    private Integer chargeCredit;
+    private Double chargeCredit;
     @Size(max = 4)
     @Column(name = "ACCORDE")
     private String accorde;
@@ -84,19 +84,19 @@ public class Credit implements Serializable {
         this.infosClient = infosClient;
     }
 
-    public Integer getMontant() {
+    public Double getMontant() {
         return montant;
     }
 
-    public void setMontant(Integer montant) {
+    public void setMontant(Double montant) {
         this.montant = montant;
     }
 
-    public Integer getTaux() {
+    public Float getTaux() {
         return taux;
     }
 
-    public void setTaux(Integer taux) {
+    public void setTaux(Float taux) {
         this.taux = taux;
     }
 
@@ -108,19 +108,19 @@ public class Credit implements Serializable {
         this.duree = duree;
     }
 
-    public Integer getSalaire() {
+    public Double getSalaire() {
         return salaire;
     }
 
-    public void setSalaire(Integer salaire) {
+    public void setSalaire(Double salaire) {
         this.salaire = salaire;
     }
 
-    public Integer getChargeCredit() {
+    public Double getChargeCredit() {
         return chargeCredit;
     }
 
-    public void setChargeCredit(Integer chargeCredit) {
+    public void setChargeCredit(Double chargeCredit) {
         this.chargeCredit = chargeCredit;
     }
 
