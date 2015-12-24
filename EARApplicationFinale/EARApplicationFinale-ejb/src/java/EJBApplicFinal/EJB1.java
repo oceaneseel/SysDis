@@ -29,6 +29,7 @@ public class EJB1 implements EJB1Remote {
     @Inject
     @JMSConnectionFactory("java:comp/DefaultJMSConnectionFactory")
     private JMSContext context;
+    
     @PersistenceContext(unitName = "DBbanque")
     private EntityManager em;
     

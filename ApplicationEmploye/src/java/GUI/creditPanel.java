@@ -8,6 +8,7 @@ package GUI;
 import EJBApplicFinal.EJB1Remote;
 import EntityClass.Credit;
 import classutil.DemandeCreditAttente;
+import classutil.MyMessageConsumer;
 import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -25,6 +26,7 @@ public class creditPanel extends javax.swing.JPanel {
     
     private int idDemande = 0;
     private UUID idClient;
+    private MyMessageConsumer mc = new MyMessageConsumer();
     
 
     /**
