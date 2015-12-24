@@ -7,12 +7,14 @@ package GUI;
 
 import EJBApplicFinal.EJB1Remote;
 import EntityClass.Credit;
+import classutil.DemandeCreditAttente;
 import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
+import javax.swing.DefaultListModel;
 import javax.swing.SwingUtilities;
 
 /**
@@ -33,6 +35,8 @@ public class creditPanel extends javax.swing.JPanel {
         idClient = UUID.randomUUID();
         
         errorLabel.setVisible(false);
+        
+        listAttente.setModel(new DefaultListModel());
         
     }
     
@@ -108,7 +112,7 @@ public class creditPanel extends javax.swing.JPanel {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList();
+        listAttente = new javax.swing.JList();
         attenteTitre = new javax.swing.JLabel();
         deconnexionButton = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
@@ -135,7 +139,7 @@ public class creditPanel extends javax.swing.JPanel {
         demandeButton = new javax.swing.JButton();
         errorLabel = new javax.swing.JLabel();
 
-        jScrollPane1.setViewportView(jList1);
+        jScrollPane1.setViewportView(listAttente);
 
         attenteTitre.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         attenteTitre.setText("Demandes en attente");
@@ -410,6 +414,7 @@ public class creditPanel extends javax.swing.JPanel {
         
         //Maintenant les choses sérieuses 
         
+        //On envoie l'objet à l'EJB
         Credit creditDemande =  new Credit();
         
         creditDemande.setChargeCredit(charge);
@@ -421,9 +426,14 @@ public class creditPanel extends javax.swing.JPanel {
         
         lookupEJB1Remote().creditRequest(creditDemande, idClient, idDemande);
         
+        
+        //On va ajouter dans la liste les requetes en attente
+        
+        DemandeCreditAttente dca = new DemandeCreditAttente(idDemande, creditDemande);              
+        
+        ((DefaultListModel)listAttente.getModel()).addElement(dca);
+       
         idDemande++;
-        
-        
     }//GEN-LAST:event_demandeButtonActionPerformed
 
 
@@ -445,8 +455,8 @@ public class creditPanel extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JList jList1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JList listAttente;
     private javax.swing.JLabel montantLabel;
     private javax.swing.JTextField montantTextField;
     private javax.swing.JLabel nomLabel;

@@ -78,8 +78,8 @@ public class MDB1 implements MessageListener {
                     logMessage += "L'employe " + elemMessage[1] + " vient de se connecter";
                 break;
                 
-            case "requestCredit":
-                    logMessage += "Demande de credit envoyee. Montant : " + elemMessage[5];
+            case "creditValide":
+                    logMessage += "Une demande de credit a ete validee automatiquement montant : " + elemMessage[6] + "  Demandeur : " + elemMessage[5];
                 break;
                 
         }

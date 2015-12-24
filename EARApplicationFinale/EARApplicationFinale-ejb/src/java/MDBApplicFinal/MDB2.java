@@ -5,12 +5,15 @@
  */
 package MDBApplicFinal;
 
+import EntityClass.Credit;
 import javax.ejb.ActivationConfigProperty;
 import javax.ejb.MessageDriven;
 import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.MessageListener;
 import javax.jms.TextMessage;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
 /**
  *
@@ -24,6 +27,8 @@ import javax.jms.TextMessage;
     @ActivationConfigProperty(propertyName = "destinationType", propertyValue = "javax.jms.Topic")
 })
 public class MDB2 implements MessageListener {
+    @PersistenceContext(unitName = "DBbanque")
+    private EntityManager em;
     
     public MDB2() {
     }
@@ -42,12 +47,28 @@ public class MDB2 implements MessageListener {
             return;
         }
         
-        if(elemMessage[0].equalsIgnoreCase("requestCredit"))
+        //Si le message a été validé automatiquement. Enregistrement dans la BD
+        if(elemMessage[0].equalsIgnoreCase("creditValide"))
         {
-            //todo do struff
+            Credit c = new Credit();
             
-            System.out.println("MDB2");
+            c.setAccorde("OK");
+            c.setChargeCredit(Double.parseDouble(elemMessage[3]));
+            c.setDuree(Integer.parseInt(elemMessage[4]));
+            c.setInfosClient(elemMessage[5]);
+            c.setMontant(Double.parseDouble(elemMessage[6]));
+            c.setSalaire(Double.parseDouble(elemMessage[7]));
+            c.setTaux(Float.parseFloat(elemMessage[8]));
+            
+            //Enregistrement du credit sur la BD
+            em.persist(c);
+            
+            return;
         }
+    }
+
+    public void persist(Object object) {
+        em.persist(object);
     }
     
 }

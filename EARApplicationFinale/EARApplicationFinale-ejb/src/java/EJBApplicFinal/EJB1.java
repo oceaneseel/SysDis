@@ -53,32 +53,50 @@ public class EJB1 implements EJB1Remote {
         
         //Creation de la chaine à envoyer sur le topic :
         
-        String messageTopic = "requestCredit";
-        messageTopic += "#" + idClient;
-        messageTopic += "#" + creditDemande.getChargeCredit();
-        messageTopic += "#" + creditDemande.getDuree();
-        messageTopic += "#" + creditDemande.getInfosClient();
-        messageTopic += "#" + creditDemande.getMontant();
-        messageTopic += "#" + creditDemande.getSalaire();
-        messageTopic += "#" + creditDemande.getTaux();
+        String messageTopic;
         
         //Vérifications pour savoir si le crédit est accordé 
         if(creditDemande.getMontant() > 250000)
         {
-            //TODO topic pour prevenir superviseur
+            messageTopic = "enregistrementCredit";
+            messageTopic += "#" + idClient;
+            messageTopic += "#" + idDemande;
+            messageTopic += "#" + creditDemande.getChargeCredit();
+            messageTopic += "#" + creditDemande.getDuree();
+            messageTopic += "#" + creditDemande.getInfosClient();
+            messageTopic += "#" + creditDemande.getMontant();
+            messageTopic += "#" + creditDemande.getSalaire();
+            messageTopic += "#" + creditDemande.getTaux(); 
             
-            messageTopic += "#NON";
             sendJMSMessageToTopicBanque(messageTopic);
         }
         
         if((creditDemande.getSalaire()/100*40) < creditDemande.getChargeCredit())
         {
-            //TO DO topic pour le superviseur
-            messageTopic += "#NON";
+            messageTopic = "enregistrementCredit";
+            messageTopic += "#" + idClient;
+            messageTopic += "#" + idDemande;
+            messageTopic += "#" + creditDemande.getChargeCredit();
+            messageTopic += "#" + creditDemande.getDuree();
+            messageTopic += "#" + creditDemande.getInfosClient();
+            messageTopic += "#" + creditDemande.getMontant();
+            messageTopic += "#" + creditDemande.getSalaire();
+            messageTopic += "#" + creditDemande.getTaux(); 
+            
             sendJMSMessageToTopicBanque(messageTopic);
         }
         
-        messageTopic += "#OK";
+        messageTopic = "creditValide";
+        messageTopic += "#" + idClient;
+        messageTopic += "#" + idDemande;
+        messageTopic += "#" + creditDemande.getChargeCredit();
+        messageTopic += "#" + creditDemande.getDuree();
+        messageTopic += "#" + creditDemande.getInfosClient();
+        messageTopic += "#" + creditDemande.getMontant();
+        messageTopic += "#" + creditDemande.getSalaire();
+        messageTopic += "#" + creditDemande.getTaux(); 
+            
+        sendJMSMessageToTopicBanque(messageTopic);
     }
 
     public void persist(Object object) {
