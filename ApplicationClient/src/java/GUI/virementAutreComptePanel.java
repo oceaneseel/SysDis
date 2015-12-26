@@ -37,16 +37,6 @@ public class virementAutreComptePanel extends javax.swing.JPanel {
         source = curCompte;
         panelPere = father;
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -171,6 +161,7 @@ public class virementAutreComptePanel extends javax.swing.JPanel {
         {
             errorvirementLabel.setText(ex.getMessage());
             errorvirementLabel.setVisible(true);
+            return;
         }
         
         

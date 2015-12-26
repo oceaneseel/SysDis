@@ -158,12 +158,13 @@ public class transfertPanel extends javax.swing.JPanel {
         {
             errorTransfertLabel.setText(ex.getMessage());
             errorTransfertLabel.setVisible(true);
+            return;
         }
         
         //Mise à jour des combos dans le panel pere
         okTransfertLabel.setText("Transfert reussi");
         okTransfertLabel.setVisible(true);
-        System.out.println("je passe");
+
         montantTextField.setText("");
         panelPere.refresh();
     }//GEN-LAST:event_transfertButtonActionPerformed

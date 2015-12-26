@@ -18,7 +18,7 @@ import javax.jms.*;
  */
 public class MyMessageConsumer implements MessageListener{
 
-    @Resource(mappedName = "jms/topicBanque")
+    @Resource(lookup = "jms/topicBanque")
     private Topic topicBanque;
     
     @Resource(mappedName = "kms/javaee7/TopicConnectionFactory")
