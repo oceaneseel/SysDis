@@ -91,7 +91,7 @@ public class connexionPanel extends javax.swing.JPanel {
         boolean resultConnexion = true;
         try
         {
-            resultConnexion = lookupEJB1Remote().loginSuperviseur();
+            resultConnexion = lookupEJB1Remote().login();
         }
         catch(Exception e)
         {

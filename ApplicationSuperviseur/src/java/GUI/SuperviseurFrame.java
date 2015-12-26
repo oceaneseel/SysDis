@@ -41,7 +41,7 @@ public class SuperviseurFrame extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new java.awt.CardLayout());
         getContentPane().add(connexionPanel1, "connexion");
-        getContentPane().add(supervisionPanel1, "card3");
+        getContentPane().add(supervisionPanel1, "supervision");
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
