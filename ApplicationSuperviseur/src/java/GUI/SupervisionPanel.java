@@ -10,14 +10,30 @@ package GUI;
  * @author Jerome
  */
 public class SupervisionPanel extends javax.swing.JPanel {
-
+    
+    private double montantTotaltransfere = 0;
+    
     /**
      * Creates new form SupervisionPanel
      */
     public SupervisionPanel() {
         initComponents();
+        
+        setMontant(0);
+        valideTextArea.setText("");
     }
 
+    private void setMontant(double addMontant)
+    {
+        montantTotaltransfere += addMontant;
+        montantTransfere.setText("Montant transfere : " + String.format("%.2f", montantTotaltransfere) + " €");
+    }
+    
+    private void logValide(String log)
+    {
+        valideTextArea.append(log);
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -41,6 +57,7 @@ public class SupervisionPanel extends javax.swing.JPanel {
         titreLabel.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         titreLabel.setText("Supervision");
 
+        montantTransfere.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         montantTransfere.setText("montantTransfere : ");
 
         valideTextArea.setEditable(false);
@@ -110,13 +127,15 @@ public class SupervisionPanel extends javax.swing.JPanel {
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 336, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(validerButton, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
+                            .addComponent(validerButton, javax.swing.GroupLayout.DEFAULT_SIZE, 37, Short.MAX_VALUE)
                             .addComponent(refuserButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
-
+    
+    
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
