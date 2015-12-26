@@ -434,8 +434,22 @@ public class creditPanel extends javax.swing.JPanel {
         //envois de la demande à l'EJB
         lookupEJB1Remote().creditRequest(creditDemande, idClient, idDemande);
         idDemande++;
+        
+        nettoyage();
     }//GEN-LAST:event_demandeButtonActionPerformed
-
+    
+    
+    private void nettoyage()
+    {
+        nomTextField.setText("");
+        prenomTextField.setText("");
+        adresseTextField.setText("");
+        salaireTextField.setText("");
+        chargeTextField.setText("");
+        montantTextField.setText("");
+        tauxTextField.setText("");
+        dureeTextField.setText("");
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel adresseLAbel;
