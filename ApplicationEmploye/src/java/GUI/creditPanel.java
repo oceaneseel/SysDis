@@ -26,7 +26,7 @@ public class creditPanel extends javax.swing.JPanel {
     
     private int idDemande = 0;
     private UUID idClient;
-    private MyMessageConsumer mc = new MyMessageConsumer();
+    private MyMessageConsumer mc;
     
 
     /**
@@ -39,6 +39,7 @@ public class creditPanel extends javax.swing.JPanel {
         errorLabel.setVisible(false);
         
         listAttente.setModel(new DefaultListModel());
+        mc = new MyMessageConsumer(listAttente);
         
     }
     
@@ -416,7 +417,7 @@ public class creditPanel extends javax.swing.JPanel {
         
         //Maintenant les choses sérieuses 
         
-        //On envoie l'objet à l'EJB
+        //Construction de l'objet matérialisant le credit en attente
         Credit creditDemande =  new Credit();
         
         creditDemande.setChargeCredit(charge);
@@ -426,15 +427,12 @@ public class creditPanel extends javax.swing.JPanel {
         creditDemande.setSalaire(salaire);
         creditDemande.setTaux(taux);
         
-        lookupEJB1Remote().creditRequest(creditDemande, idClient, idDemande);
-        
-        
-        //On va ajouter dans la liste les requetes en attente
-        
+        //ajout de cet objet dans la jlist
         DemandeCreditAttente dca = new DemandeCreditAttente(idDemande, creditDemande);              
-        
         ((DefaultListModel)listAttente.getModel()).addElement(dca);
-       
+        
+        //envois de la demande à l'EJB
+        lookupEJB1Remote().creditRequest(creditDemande, idClient, idDemande);
         idDemande++;
     }//GEN-LAST:event_demandeButtonActionPerformed
 

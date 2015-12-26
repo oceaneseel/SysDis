@@ -5,17 +5,15 @@
  */
 package classutil;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.annotation.Resource;
-import javax.ejb.SessionContext;
-import javax.inject.Inject;
 import javax.jms.Message;
 import javax.jms.MessageListener;
 import javax.jms.*;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
+import javax.swing.DefaultListModel;
+import javax.swing.JList;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -23,9 +21,12 @@ import javax.naming.NamingException;
  */
 public class MyMessageConsumer implements MessageListener{
 
+    private JList listattente;
     
-    public MyMessageConsumer() {
- 
+    public MyMessageConsumer(JList la) {
+        
+        listattente = la;
+        
         try {   
             Context c = new InitialContext();
         
@@ -35,9 +36,7 @@ public class MyMessageConsumer implements MessageListener{
             
             Destination destination = (Destination) c.lookup("jms/topicBanque");
             MessageConsumer mc = sess.createConsumer(destination);
-            
-            System.out.println("gneeeeeeee");
-            
+
             mc.setMessageListener(this);
             co.start();
             
@@ -52,38 +51,45 @@ public class MyMessageConsumer implements MessageListener{
     
     @Override
     public void onMessage(Message message) {
-        System.out.println(message);
-    }
-
-    private Message createJMSMessageForjmsTopicBanque(Session session, Object messageData) throws JMSException {
-        // TODO create and populate message to send
-        TextMessage tm = session.createTextMessage();
-        tm.setText(messageData.toString());
-        return tm;
-    }
-
-    private void sendJMSMessageToTopicBanque2(Object messageData) throws JMSException, NamingException {
-        Context c = new InitialContext();
-        ConnectionFactory cf = (ConnectionFactory) c.lookup("java:comp/env/jms/topicBanqueFactory");
-        Connection conn = null;
-        Session s = null;
+        TextMessage tm = (TextMessage) message;
+        
+        String[] elemMessage;
         try {
-            conn = cf.createConnection();
-            s = conn.createSession(false, s.AUTO_ACKNOWLEDGE);
-            Destination destination = (Destination) c.lookup("java:comp/env/jms/topicBanque");
-            MessageProducer mp = s.createProducer(destination);
-            mp.send(createJMSMessageForjmsTopicBanque(s, messageData));
-        } finally {
-            if (s != null) {
-                try {
-                    s.close();
-                } catch (JMSException e) {
-                    Logger.getLogger(this.getClass().getName()).log(Level.WARNING, "Cannot close session", e);
-                }
-            }
-            if (conn != null) {
-                conn.close();
+            elemMessage = tm.getText().split("#");
+        } catch (JMSException ex) {
+            ex.printStackTrace();
+            return;
+        }
+        
+        switch(elemMessage[0]){
+            
+            case "creditValide" : 
+                    valide(Integer.parseInt(elemMessage[2]));
+                break;
+                
+        }
+    }
+    
+    
+    private void valide(int numDemande)
+    {
+        DefaultListModel list = (DefaultListModel) listattente.getModel();
+        DemandeCreditAttente dca = null;
+        
+        for(int i = 0; i < list.getSize(); i++)
+        {
+            dca = (DemandeCreditAttente) list.get(i);
+            
+            if(dca.getIdTemp() == numDemande)
+            {
+                list.remove(i);
+                break;
             }
         }
+        
+        String messageDialog = "Le prêt demandé par : " + dca.getCredit().getInfosClient() + "  pour un montant de  : ";
+        messageDialog += dca.getCredit().getMontant() + " a été accordé";
+
+        JOptionPane.showMessageDialog(null, messageDialog);
     }
 }
