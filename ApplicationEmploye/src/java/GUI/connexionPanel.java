@@ -88,7 +88,18 @@ public class connexionPanel extends javax.swing.JPanel {
        
         errorLabel.setVisible(false);
         
-        boolean resultConnexion = lookupEJB1Remote().login();
+        boolean resultConnexion = true;
+        try
+        {
+            resultConnexion = lookupEJB1Remote().loginSuperviseur();
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+            errorLabel.setText("Connexion echouee");
+            errorLabel.setVisible(true);
+            return;
+        }
         
         if(!resultConnexion)
         {

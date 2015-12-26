@@ -85,7 +85,18 @@ public class ConnexionPanel extends javax.swing.JPanel {
     private void connexionButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_connexionButtonActionPerformed
         errorLabel.setVisible(false);
         
-        boolean resultConnexion = lookupEJB1Remote().login();
+        boolean resultConnexion = true;
+        try
+        {
+            resultConnexion = lookupEJB1Remote().loginSuperviseur();
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+            errorLabel.setText("Connexion echouee");
+            errorLabel.setVisible(true);
+            return;
+        }
         
         if(!resultConnexion)
         {

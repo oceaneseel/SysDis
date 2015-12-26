@@ -100,6 +100,8 @@ public class ConnexionPanel extends javax.swing.JPanel {
         }
         catch(Exception x)
         {
+            errorLabel.setText("Connexion echouee");
+            errorLabel.setVisible(true);
             x.printStackTrace();
             return;
         }

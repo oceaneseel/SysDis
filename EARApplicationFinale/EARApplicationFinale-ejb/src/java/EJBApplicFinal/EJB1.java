@@ -47,14 +47,14 @@ public class EJB1 implements EJB1Remote {
         return true;
     }
     
-    @RolesAllowed("employe")
+    @RolesAllowed("superviseur")
     @Override
     public boolean loginSuperviseur() {
         
         if(ctx.getCallerPrincipal().getName().equals("ANONYMOUS"))
             return false;
         
-        sendJMSMessageToTopicBanque("loginEmp#"+ctx.getCallerPrincipal().getName());
+        sendJMSMessageToTopicBanque("loginSup#"+ctx.getCallerPrincipal().getName());
         
         return true;
     }

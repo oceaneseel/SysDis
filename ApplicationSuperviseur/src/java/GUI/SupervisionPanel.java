@@ -5,14 +5,30 @@
  */
 package GUI;
 
+import classUtil.MyMessageConsumer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.jms.Connection;
+import javax.jms.ConnectionFactory;
+import javax.jms.Destination;
+import javax.jms.JMSException;
+import javax.jms.Message;
+import javax.jms.MessageProducer;
+import javax.jms.Session;
+import javax.jms.TextMessage;
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+
 /**
  *
  * @author Jerome
  */
 public class SupervisionPanel extends javax.swing.JPanel {
     
+    private MyMessageConsumer mmc;
     private double montantTotaltransfere = 0;
-    
+
     /**
      * Creates new form SupervisionPanel
      */
@@ -21,15 +37,16 @@ public class SupervisionPanel extends javax.swing.JPanel {
         
         setMontant(0);
         valideTextArea.setText("");
+        mmc = new MyMessageConsumer(this);
     }
 
-    private void setMontant(double addMontant)
+    public void setMontant(double addMontant)
     {
         montantTotaltransfere += addMontant;
         montantTransfere.setText("Montant transfere : " + String.format("%.2f", montantTotaltransfere) + " €");
     }
     
-    private void logValide(String log)
+    public void logValide(String log)
     {
         valideTextArea.append(log);
     }
@@ -148,4 +165,36 @@ public class SupervisionPanel extends javax.swing.JPanel {
     private javax.swing.JTextArea valideTextArea;
     private javax.swing.JButton validerButton;
     // End of variables declaration//GEN-END:variables
+
+    private Message createJMSMessageForjmsTopicBanque(Session session, Object messageData) throws JMSException {
+        // TODO create and populate message to send
+        TextMessage tm = session.createTextMessage();
+        tm.setText(messageData.toString());
+        return tm;
+    }
+
+    private void sendJMSMessageToTopicBanque(Object messageData) throws JMSException, NamingException {
+        Context c = new InitialContext();
+        ConnectionFactory cf = (ConnectionFactory) c.lookup("java:comp/env/jms/topicBanqueFactory");
+        Connection conn = null;
+        Session s = null;
+        try {
+            conn = cf.createConnection();
+            s = conn.createSession(false, s.AUTO_ACKNOWLEDGE);
+            Destination destination = (Destination) c.lookup("java:comp/env/jms/topicBanque");
+            MessageProducer mp = s.createProducer(destination);
+            mp.send(createJMSMessageForjmsTopicBanque(s, messageData));
+        } finally {
+            if (s != null) {
+                try {
+                    s.close();
+                } catch (JMSException e) {
+                    Logger.getLogger(this.getClass().getName()).log(Level.WARNING, "Cannot close session", e);
+                }
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+    }
 }
