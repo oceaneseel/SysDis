@@ -70,6 +70,12 @@ public class MyMessageConsumer implements MessageListener{
                     if(elemMessage[1].equals(idClient))
                         valide(Integer.parseInt(elemMessage[2]));
                 break;
+            
+            case "validationSuperviseur" : 
+                //Si le message est bien destine à ce client la on valide
+                    if(elemMessage[1].equals(idClient))
+                        valide(Integer.parseInt(elemMessage[2]));
+                break;
                 
         }
     }
@@ -77,6 +83,7 @@ public class MyMessageConsumer implements MessageListener{
     
     private void valide(int numDemande)
     {
+        System.out.println("valide  = " + numDemande);
         DefaultListModel list = (DefaultListModel) listattente.getModel();
         DemandeCreditAttente dca = null;
         

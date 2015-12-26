@@ -90,6 +90,10 @@ public class MDB1 implements MessageListener {
                     logMessage += "Le superviseur " + elemMessage[1] + " vient de se connecter";
                 break;
                 
+            case "validationSuperviseur":
+                    logMessage += "Un superviseur a valide la demande de credit ID  " + elemMessage[3];
+                break;
+                
         }
         
         log.setMessage(logMessage);

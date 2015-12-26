@@ -98,11 +98,18 @@ public class MDB2 implements MessageListener {
             messageSuperviseur += c.getId();
             
             sendJMSMessageToTopicBanque(messageSuperviseur);
-            
+            System.out.println("avis demande au superviseur");
             return;
         }
         
         
+        //valide par un superviseur
+        if(elemMessage[0].equalsIgnoreCase("validationSuperviseur"))
+        {
+            Credit c = em.find(Credit.class, elemMessage[3]);
+            c.setAccorde("OK");
+            return;
+        }
     }
 
     public void persist(Object object) {

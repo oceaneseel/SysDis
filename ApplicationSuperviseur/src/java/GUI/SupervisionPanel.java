@@ -22,7 +22,6 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
-import org.jboss.weld.literal.DefaultLiteral;
 
 /**
  *
@@ -38,6 +37,8 @@ public class SupervisionPanel extends javax.swing.JPanel {
      */
     public SupervisionPanel() {
         initComponents();
+        
+        listeDemandeAttente.setModel(new DefaultListModel());
         
         setMontant(0);
         valideTextArea.setText("");
@@ -57,7 +58,7 @@ public class SupervisionPanel extends javax.swing.JPanel {
     
     public void addDemande(DemandeCreditAttente d)
     {
-        ((DefaultListModel) listeDemandeAttente.getModel()).addElement(d);
+        ((DefaultListModel)listeDemandeAttente.getModel()).addElement(d);
     }
     
     /**
@@ -197,6 +198,9 @@ public class SupervisionPanel extends javax.swing.JPanel {
             ex.printStackTrace();
             return;
         }
+        
+        //suppression  de la liste
+        ((DefaultListModel)listeDemandeAttente.getModel()).remove(listeDemandeAttente.getSelectedIndex());
     }//GEN-LAST:event_validerButtonActionPerformed
 
     
@@ -230,7 +234,7 @@ public class SupervisionPanel extends javax.swing.JPanel {
         try {
             conn = cf.createConnection();
             s = conn.createSession(false, s.AUTO_ACKNOWLEDGE);
-            Destination destination = (Destination) c.lookup("java:comp/env/jms/topicBanque");
+            Destination destination = (Destination) c.lookup("jms/topicBanque");
             MessageProducer mp = s.createProducer(destination);
             mp.send(createJMSMessageForjmsTopicBanque(s, messageData));
         } finally {

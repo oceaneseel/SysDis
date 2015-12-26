@@ -96,7 +96,6 @@ public class MyMessageConsumer implements MessageListener{
         c.setTaux(Float.parseFloat(demande[8]));
         c.setId(Integer.parseInt(demande[9]));
         
-        
         DemandeCreditAttente dca = new DemandeCreditAttente(demande[1],Integer.parseInt(demande[2]) ,c);
         
         supervision.addDemande(dca);

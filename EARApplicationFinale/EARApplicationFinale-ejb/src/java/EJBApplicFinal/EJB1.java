@@ -84,6 +84,7 @@ public class EJB1 implements EJB1Remote {
             messageTopic += "#" + creditDemande.getTaux(); 
             
             sendJMSMessageToTopicBanque(messageTopic);
+            return;
         }
         
         if((creditDemande.getSalaire()/100*40) < creditDemande.getChargeCredit())
@@ -99,6 +100,7 @@ public class EJB1 implements EJB1Remote {
             messageTopic += "#" + creditDemande.getTaux(); 
             
             sendJMSMessageToTopicBanque(messageTopic);
+            return;
         }
         
         messageTopic = "creditValide";
