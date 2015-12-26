@@ -5,6 +5,14 @@
  */
 package GUI;
 
+import EJBApplicFinal.EJB1Remote;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.swing.SwingUtilities;
+
 /**
  *
  * @author Jerome
@@ -16,6 +24,7 @@ public class ConnexionPanel extends javax.swing.JPanel {
      */
     public ConnexionPanel() {
         initComponents();
+        errorLabel.setVisible(false);
     }
 
     /**
@@ -29,25 +38,36 @@ public class ConnexionPanel extends javax.swing.JPanel {
 
         titreLabel = new javax.swing.JLabel();
         connexionButton = new javax.swing.JButton();
+        errorLabel = new javax.swing.JLabel();
 
         titreLabel.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
         titreLabel.setText("Connexion superviseur");
 
         connexionButton.setText("Connexion");
+        connexionButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                connexionButtonActionPerformed(evt);
+            }
+        });
+
+        errorLabel.setForeground(new java.awt.Color(255, 0, 0));
+        errorLabel.setText("jLabel1");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(279, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(titreLabel)
-                        .addGap(260, 260, 260))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(connexionButton, javax.swing.GroupLayout.PREFERRED_SIZE, 253, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(322, 322, 322))))
+                    .addComponent(errorLabel)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                            .addComponent(titreLabel)
+                            .addGap(260, 260, 260))
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                            .addComponent(connexionButton, javax.swing.GroupLayout.PREFERRED_SIZE, 253, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(322, 322, 322)))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -56,13 +76,44 @@ public class ConnexionPanel extends javax.swing.JPanel {
                 .addComponent(titreLabel)
                 .addGap(93, 93, 93)
                 .addComponent(connexionButton, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(238, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 78, Short.MAX_VALUE)
+                .addComponent(errorLabel)
+                .addGap(146, 146, 146))
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    private void connexionButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_connexionButtonActionPerformed
+        errorLabel.setVisible(false);
+        
+        boolean resultConnexion = lookupEJB1Remote().login();
+        
+        if(!resultConnexion)
+        {
+            errorLabel.setText("Connexion échouée");
+            errorLabel.setVisible(true);
+            
+            return;
+        }
+        
+        //Changement de fenêtre
+        SuperviseurFrame se = (SuperviseurFrame)SwingUtilities.getWindowAncestor(this);
+        se.changeCard("supervision");
+    }//GEN-LAST:event_connexionButtonActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton connexionButton;
+    private javax.swing.JLabel errorLabel;
     private javax.swing.JLabel titreLabel;
     // End of variables declaration//GEN-END:variables
+
+    private EJB1Remote lookupEJB1Remote() {
+        try {
+            Context c = new InitialContext();
+            return (EJB1Remote) c.lookup("java:comp/env/EJB1");
+        } catch (NamingException ne) {
+            Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", ne);
+            throw new RuntimeException(ne);
+        }
+    }
 }

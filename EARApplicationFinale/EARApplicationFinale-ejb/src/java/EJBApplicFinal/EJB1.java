@@ -35,7 +35,7 @@ public class EJB1 implements EJB1Remote {
     
     @Resource SessionContext ctx;
     
-    @RolesAllowed({"employe", "superviseur"})
+    @RolesAllowed("employe")
     @Override
     public boolean login() {
         
@@ -46,6 +46,20 @@ public class EJB1 implements EJB1Remote {
         
         return true;
     }
+    
+    @RolesAllowed("employe")
+    @Override
+    public boolean loginSuperviseur() {
+        
+        if(ctx.getCallerPrincipal().getName().equals("ANONYMOUS"))
+            return false;
+        
+        sendJMSMessageToTopicBanque("loginEmp#"+ctx.getCallerPrincipal().getName());
+        
+        return true;
+    }
+    
+    
     
     @RolesAllowed("employe")
     @Override

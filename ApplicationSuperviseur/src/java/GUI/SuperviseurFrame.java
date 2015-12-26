@@ -5,6 +5,8 @@
  */
 package GUI;
 
+import java.awt.CardLayout;
+
 /**
  *
  * @author Jerome
@@ -17,6 +19,12 @@ public class SuperviseurFrame extends javax.swing.JFrame {
     public SuperviseurFrame() {
         initComponents();
     }
+    
+    public void changeCard(String cardName)
+    {
+        CardLayout cl = (CardLayout)this.getContentPane().getLayout();
+        cl.show(this.getContentPane(), cardName);
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -28,10 +36,12 @@ public class SuperviseurFrame extends javax.swing.JFrame {
     private void initComponents() {
 
         connexionPanel1 = new GUI.ConnexionPanel();
+        supervisionPanel1 = new GUI.SupervisionPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new java.awt.CardLayout());
         getContentPane().add(connexionPanel1, "connexion");
+        getContentPane().add(supervisionPanel1, "card3");
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -73,5 +83,6 @@ public class SuperviseurFrame extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private GUI.ConnexionPanel connexionPanel1;
+    private GUI.SupervisionPanel supervisionPanel1;
     // End of variables declaration//GEN-END:variables
 }
