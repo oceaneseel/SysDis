@@ -73,7 +73,7 @@ public class EJB1 implements EJB1Remote {
         //Vérifications pour savoir si le crédit est accordé 
         if(creditDemande.getMontant() > 250000)
         {
-            messageTopic = "enregistrementCredit";
+            messageTopic = "demandeNonValidee";
             messageTopic += "#" + idClient;
             messageTopic += "#" + idDemande;
             messageTopic += "#" + creditDemande.getChargeCredit();
@@ -88,7 +88,7 @@ public class EJB1 implements EJB1Remote {
         
         if((creditDemande.getSalaire()/100*40) < creditDemande.getChargeCredit())
         {
-            messageTopic = "enregistrementCredit";
+            messageTopic = "demandeNonValidee";
             messageTopic += "#" + idClient;
             messageTopic += "#" + idDemande;
             messageTopic += "#" + creditDemande.getChargeCredit();

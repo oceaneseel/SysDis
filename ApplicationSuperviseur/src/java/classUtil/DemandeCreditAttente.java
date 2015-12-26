@@ -6,6 +6,7 @@
 package classUtil;
 
 import EntityClass.Credit;
+import java.util.UUID;
 
 /**
  *
@@ -13,12 +14,24 @@ import EntityClass.Credit;
  */
 public class DemandeCreditAttente{
     
+    private String idEmployeSource;
     private int idTemp;
     private Credit cred;
 
-    public DemandeCreditAttente(int i, Credit c) {
+    public DemandeCreditAttente(String id, int i, Credit c) {
+        idEmployeSource = id;
         idTemp = i;
         cred = c;
+    }
+    
+    public void setIdEmployeSource(String i)
+    {
+        idEmployeSource = i;
+    }
+    
+    public String getIdEmployeSource()
+    {
+        return idEmployeSource;
     }
     
     public void setIdTemp(int i)
@@ -44,6 +57,6 @@ public class DemandeCreditAttente{
     @Override
     public String toString()
     {
-        return idTemp + " -- " + cred.getMontant() + " -- " + cred.getInfosClient();
+        return "Montant : " + cred.getMontant() + " infos : " + cred.getInfosClient() + "  charges : " + cred.getChargeCredit();
     }
 }

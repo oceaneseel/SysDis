@@ -5,6 +5,7 @@
  */
 package classUtil;
 
+import EntityClass.Credit;
 import GUI.SupervisionPanel;
 import javax.jms.Message;
 import javax.jms.MessageListener;
@@ -70,9 +71,34 @@ public class MyMessageConsumer implements MessageListener{
             
             case "creditValide" : 
                     String logValid = "Montant : " + elemMessage[6] + "  Demandeur : " + elemMessage[5];
-                    supervision.logValide(null);
+                    supervision.logValide(logValid);
+                break;
+                
+            case "avisSuperviseur" : 
+                    //Credit mis en attente dans la jlist pour validation de superviseur
+                    addDemande(elemMessage);
                 break;
                 
         }
+    }
+    
+    
+    private void addDemande(String[] demande)
+    {
+        Credit c = new Credit();
+        
+        c.setAccorde("KO");
+        c.setChargeCredit(Double.parseDouble(demande[3]));
+        c.setDuree(Integer.parseInt(demande[4]));
+        c.setInfosClient(demande[5]);
+        c.setMontant(Double.parseDouble(demande[6]));
+        c.setSalaire(Double.parseDouble(demande[7]));
+        c.setTaux(Float.parseFloat(demande[8]));
+        c.setId(Integer.parseInt(demande[9]));
+        
+        
+        DemandeCreditAttente dca = new DemandeCreditAttente(demande[1],Integer.parseInt(demande[2]) ,c);
+        
+        supervision.addDemande(dca);
     }
 }

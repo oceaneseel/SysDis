@@ -5,6 +5,7 @@
  */
 package GUI;
 
+import classUtil.DemandeCreditAttente;
 import classUtil.MyMessageConsumer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -19,6 +20,9 @@ import javax.jms.TextMessage;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
+import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
+import org.jboss.weld.literal.DefaultLiteral;
 
 /**
  *
@@ -51,6 +55,11 @@ public class SupervisionPanel extends javax.swing.JPanel {
         valideTextArea.append(log);
     }
     
+    public void addDemande(DemandeCreditAttente d)
+    {
+        ((DefaultListModel) listeDemandeAttente.getModel()).addElement(d);
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -66,7 +75,7 @@ public class SupervisionPanel extends javax.swing.JPanel {
         valideTextArea = new javax.swing.JTextArea();
         jLabel1 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList();
+        listeDemandeAttente = new javax.swing.JList();
         jLabel2 = new javax.swing.JLabel();
         validerButton = new javax.swing.JButton();
         refuserButton = new javax.swing.JButton();
@@ -85,12 +94,17 @@ public class SupervisionPanel extends javax.swing.JPanel {
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel1.setText("Demandes validées : ");
 
-        jScrollPane2.setViewportView(jList1);
+        jScrollPane2.setViewportView(listeDemandeAttente);
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel2.setText("A valider : ");
 
         validerButton.setText("Valider");
+        validerButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                validerButtonActionPerformed(evt);
+            }
+        });
 
         refuserButton.setText("Refuser");
 
@@ -150,15 +164,36 @@ public class SupervisionPanel extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    //Validation d'une demande de credit demandee
+    private void validerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_validerButtonActionPerformed
+        
+        //si rien n'est selectionne
+        if(listeDemandeAttente.getSelectedIndex() < 0)
+            return;
+        
+        //Recuperation de la demande à valider : 
+        DemandeCreditAttente dca;
+        
+        dca = (DemandeCreditAttente)((DefaultListModel)listeDemandeAttente.getModel()).get(listeDemandeAttente.getSelectedIndex());
+        //Boite de confirmation
+        int result = JOptionPane.showConfirmDialog(null, "Etes vous sur de valider cette demande : \n" + dca, "Confirmation" ,JOptionPane.YES_NO_OPTION);
+        
+        if(result != JOptionPane.YES_OPTION)
+            return;
+            
+        //C'est confirme. On construit le message pour le topic et on retire la demande de la fil d'attente
+        
+    }//GEN-LAST:event_validerButtonActionPerformed
+
     
     
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JList jList1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JList listeDemandeAttente;
     private javax.swing.JLabel montantTransfere;
     private javax.swing.JButton refuserButton;
     private javax.swing.JLabel titreLabel;
