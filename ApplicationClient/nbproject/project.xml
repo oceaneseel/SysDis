@@ -12,7 +12,6 @@
                 <root id="test.src.dir" name="Test Packages"/>
             </test-roots>
             <included-library dirs="200">reference.JavaLibraryEJB2.jar</included-library>
-            <included-library dirs="200">libs.absolutelayout.classpath</included-library>
         </data>
         <references xmlns="http://www.netbeans.org/ns/ant-project-references/1">
             <reference>

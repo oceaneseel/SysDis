@@ -5,50 +5,51 @@
  */
 package classutil;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.Resource;
 import javax.ejb.SessionContext;
 import javax.inject.Inject;
 import javax.jms.Message;
 import javax.jms.MessageListener;
 import javax.jms.*;
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 
 /**
  *
  * @author Jerome
  */
 public class MyMessageConsumer implements MessageListener{
-    
-    @Resource SessionContext ctx;
-    
-    @Resource(mappedName = "jms/topicBanque")
-    private Topic topicBanque;
+
     
     public MyMessageConsumer() {
-        
-        if(topicBanque == null)
-            System.out.println("la c'est vraiment la merde");
-        
-        topicBanque.getClass();
-        
-        /*try {                 
+ 
+        try {   
             
-            if(dcf == null)
-                System.out.println("WHY");
+            System.out.println("gneeeeeeedfe");
+            Context c = new InitialContext();
+        
+            ConnectionFactory cf = (ConnectionFactory) c.lookup("java:comp/env/jms/topicBanqueFactory");
+            Connection co = cf.createConnection();
+            Session sess = co.createSession(false, Session.AUTO_ACKNOWLEDGE);
             
-            System.out.println("test1");
-            Connection c = dcf.createConnection();
-            System.out.println("test2");
-            Session sess = c.createSession(false, Session.AUTO_ACKNOWLEDGE);
-            System.out.println("test3");
-            MessageConsumer mc = sess.createConsumer(topicBanque);
+            System.out.println("gneeeeeeee");
+            
+            Destination destination = (Destination) c.lookup("topicBanque");
+            MessageConsumer mc = sess.createConsumer(destination);
+            
             mc.setMessageListener(this);
-            c.start();
+            co.start();
             
         } catch (JMSException ex) {
             ex.printStackTrace();
             return;
-        }*/
-        
+        } catch (NamingException ex) {
+            ex.printStackTrace();
+            return;
+        }
     }
     
     @Override
