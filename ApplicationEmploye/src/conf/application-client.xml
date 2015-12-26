@@ -20,13 +20,7 @@
   <message-destination-ref>
     <message-destination-ref-name>jms/topicBanque</message-destination-ref-name>
     <message-destination-type>javax.jms.Topic</message-destination-type>
-    <message-destination-usage>Produces</message-destination-usage>
-    <message-destination-link>jms/topicBanque</message-destination-link>
-  </message-destination-ref>
-  <message-destination-ref>
-    <message-destination-ref-name>jms/topicBanque1</message-destination-ref-name>
-    <message-destination-type>javax.jms.Topic</message-destination-type>
-    <message-destination-usage>Produces</message-destination-usage>
+    <message-destination-usage>Consumes</message-destination-usage>
     <message-destination-link>jms/topicBanque</message-destination-link>
   </message-destination-ref>
 </application-client>
