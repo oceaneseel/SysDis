@@ -182,7 +182,21 @@ public class SupervisionPanel extends javax.swing.JPanel {
             return;
             
         //C'est confirme. On construit le message pour le topic et on retire la demande de la fil d'attente
+        //Comme on a deja enregistre les infos dans la BD il nous faut juste l'ID du credit dans la BD, le client destinataire et l'ID temp du client
+        String validation = "validationSuperviseur#";
+        validation += "#" + dca.getIdEmployeSource();
+        validation += "#" + dca.getIdTemp();
+        validation += "#" + dca.getCredit().getId();
         
+        try {
+            sendJMSMessageToTopicBanque(validation);
+        } catch (JMSException ex) {
+            ex.printStackTrace();
+            return;
+        } catch (NamingException ex) {
+            ex.printStackTrace();
+            return;
+        }
     }//GEN-LAST:event_validerButtonActionPerformed
 
     

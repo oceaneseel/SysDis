@@ -22,10 +22,12 @@ import javax.swing.JOptionPane;
 public class MyMessageConsumer implements MessageListener{
 
     private JList listattente;
+    private String idClient;
     
-    public MyMessageConsumer(JList la) {
+    public MyMessageConsumer(JList la, String id) {
         
         listattente = la;
+        idClient = id;
         
         try {   
             Context c = new InitialContext();
@@ -64,7 +66,9 @@ public class MyMessageConsumer implements MessageListener{
         switch(elemMessage[0]){
             
             case "creditValide" : 
-                    valide(Integer.parseInt(elemMessage[2]));
+                //Si le message est bien destine à ce client la on valide
+                    if(elemMessage[1].equals(idClient))
+                        valide(Integer.parseInt(elemMessage[2]));
                 break;
                 
         }

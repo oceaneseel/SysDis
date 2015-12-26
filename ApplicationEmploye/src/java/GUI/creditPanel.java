@@ -39,8 +39,7 @@ public class creditPanel extends javax.swing.JPanel {
         errorLabel.setVisible(false);
         
         listAttente.setModel(new DefaultListModel());
-        mc = new MyMessageConsumer(listAttente);
-        
+        mc = new MyMessageConsumer(listAttente, idClient.toString());
     }
     
     //Tous les champs ont il bien été remplis ?
