@@ -5,9 +5,9 @@
  */
 package classutil;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.annotation.Resource;
+import javax.ejb.SessionContext;
+import javax.inject.Inject;
 import javax.jms.Message;
 import javax.jms.MessageListener;
 import javax.jms.*;
@@ -17,27 +17,37 @@ import javax.jms.*;
  * @author Jerome
  */
 public class MyMessageConsumer implements MessageListener{
-
-    @Resource(lookup = "jms/topicBanque")
-    private Topic topicBanque;
     
-    @Resource(mappedName = "kms/javaee7/TopicConnectionFactory")
-    private TopicConnectionFactory tcf;
+    @Resource SessionContext ctx;
+    
+    @Resource(mappedName = "jms/topicBanque")
+    private Topic topicBanque;
     
     public MyMessageConsumer() {
         
-        TopicConnection tc;
-        try {
+        if(topicBanque == null)
+            System.out.println("la c'est vraiment la merde");
+        
+        topicBanque.getClass();
+        
+        /*try {                 
             
-            tc = tcf.createTopicConnection();
-            TopicSession ts = tc.createTopicSession(false, Session.AUTO_ACKNOWLEDGE);   
-            MessageConsumer consumer = ts.createConsumer(topicBanque);
-            consumer.setMessageListener(this);
-            tc.start();
+            if(dcf == null)
+                System.out.println("WHY");
+            
+            System.out.println("test1");
+            Connection c = dcf.createConnection();
+            System.out.println("test2");
+            Session sess = c.createSession(false, Session.AUTO_ACKNOWLEDGE);
+            System.out.println("test3");
+            MessageConsumer mc = sess.createConsumer(topicBanque);
+            mc.setMessageListener(this);
+            c.start();
+            
         } catch (JMSException ex) {
             ex.printStackTrace();
             return;
-        }
+        }*/
         
     }
     
