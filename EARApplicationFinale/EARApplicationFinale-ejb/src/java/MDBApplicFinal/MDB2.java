@@ -55,7 +55,7 @@ public class MDB2 implements MessageListener {
             
             return;
         }
-        
+        System.out.println(elemMessage[0]);
         //Si le message a été validé automatiquement. Enregistrement dans la BD
         if(elemMessage[0].equalsIgnoreCase("creditValide"))
         {

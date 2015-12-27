@@ -190,6 +190,7 @@ public class SupervisionPanel extends javax.swing.JPanel {
         validation += "#" + dca.getCredit().getId();
         
         try {
+            System.out.println("Envois de la validation : ");
             sendJMSMessageToTopicBanque(validation);
         } catch (JMSException ex) {
             ex.printStackTrace();
