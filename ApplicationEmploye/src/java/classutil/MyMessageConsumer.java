@@ -76,6 +76,12 @@ public class MyMessageConsumer implements MessageListener{
                     if(elemMessage[1].equals(idClient))
                         valide(Integer.parseInt(elemMessage[2]));
                 break;
+            
+            case "refusSuperviseur" : 
+                //Si le message est bien destine à ce client la on valide
+                    if(elemMessage[1].equals(idClient))
+                        refuse(Integer.parseInt(elemMessage[2]));
+                break;
                 
         }
     }
@@ -83,7 +89,6 @@ public class MyMessageConsumer implements MessageListener{
     
     private void valide(int numDemande)
     {
-        System.out.println("valide  = " + numDemande);
         DefaultListModel list = (DefaultListModel) listattente.getModel();
         DemandeCreditAttente dca = null;
         
@@ -100,6 +105,29 @@ public class MyMessageConsumer implements MessageListener{
         
         String messageDialog = "Le prêt demandé par : " + dca.getCredit().getInfosClient() + "  pour un montant de  : ";
         messageDialog += dca.getCredit().getMontant() + " a été accordé";
+
+        JOptionPane.showMessageDialog(null, messageDialog);
+    }
+    
+    
+    private void refuse(int numDemande)
+    {
+        DefaultListModel list = (DefaultListModel) listattente.getModel();
+        DemandeCreditAttente dca = null;
+        
+        for(int i = 0; i < list.getSize(); i++)
+        {
+            dca = (DemandeCreditAttente) list.get(i);
+            
+            if(dca.getIdTemp() == numDemande)
+            {
+                list.remove(i);
+                break;
+            }
+        }
+        
+        String messageDialog = "Le prêt demandé par : " + dca.getCredit().getInfosClient() + "  pour un montant de  : ";
+        messageDialog += dca.getCredit().getMontant() + " a été refusé";
 
         JOptionPane.showMessageDialog(null, messageDialog);
     }

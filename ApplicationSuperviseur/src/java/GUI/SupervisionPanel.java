@@ -108,6 +108,11 @@ public class SupervisionPanel extends javax.swing.JPanel {
         });
 
         refuserButton.setText("Refuser");
+        refuserButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                refuserButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -184,13 +189,13 @@ public class SupervisionPanel extends javax.swing.JPanel {
             
         //C'est confirme. On construit le message pour le topic et on retire la demande de la fil d'attente
         //Comme on a deja enregistre les infos dans la BD il nous faut juste l'ID du credit dans la BD, le client destinataire et l'ID temp du client
-        String validation = "validationSuperviseur#";
+        
+        String validation = "validationSuperviseur";
         validation += "#" + dca.getIdEmployeSource();
         validation += "#" + dca.getIdTemp();
         validation += "#" + dca.getCredit().getId();
         
         try {
-            System.out.println("Envois de la validation : ");
             sendJMSMessageToTopicBanque(validation);
         } catch (JMSException ex) {
             ex.printStackTrace();
@@ -203,6 +208,43 @@ public class SupervisionPanel extends javax.swing.JPanel {
         //suppression  de la liste
         ((DefaultListModel)listeDemandeAttente.getModel()).remove(listeDemandeAttente.getSelectedIndex());
     }//GEN-LAST:event_validerButtonActionPerformed
+
+    private void refuserButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refuserButtonActionPerformed
+        //si rien n'est selectionne
+        if(listeDemandeAttente.getSelectedIndex() < 0)
+            return;
+        
+        //Recuperation de la demande à valider : 
+        DemandeCreditAttente dca;
+        
+        dca = (DemandeCreditAttente)((DefaultListModel)listeDemandeAttente.getModel()).get(listeDemandeAttente.getSelectedIndex());
+        //Boite de confirmation
+        int result = JOptionPane.showConfirmDialog(null, "Etes vous sur de refuser cette demande : \n" + dca, "Confirmation" ,JOptionPane.YES_NO_OPTION);
+        
+        if(result != JOptionPane.YES_OPTION)
+            return;
+            
+        //C'est confirme. On construit le message pour le topic et on retire la demande de la fil d'attente
+        //Comme on a deja enregistre les infos dans la BD il nous faut juste l'ID du credit dans la BD, le client destinataire et l'ID temp du client
+        
+        String validation = "refusSuperviseur";
+        validation += "#" + dca.getIdEmployeSource();
+        validation += "#" + dca.getIdTemp();
+        validation += "#" + dca.getCredit().getId();
+        
+        try {
+            sendJMSMessageToTopicBanque(validation);
+        } catch (JMSException ex) {
+            ex.printStackTrace();
+            return;
+        } catch (NamingException ex) {
+            ex.printStackTrace();
+            return;
+        }
+        
+        //suppression  de la liste
+        ((DefaultListModel)listeDemandeAttente.getModel()).remove(listeDemandeAttente.getSelectedIndex());
+    }//GEN-LAST:event_refuserButtonActionPerformed
 
     
     

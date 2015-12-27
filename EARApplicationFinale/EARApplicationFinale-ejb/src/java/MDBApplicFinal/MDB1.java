@@ -91,7 +91,11 @@ public class MDB1 implements MessageListener {
                 break;
                 
             case "validationSuperviseur":
-                    logMessage += "Un superviseur a valide la demande de credit ID  " + elemMessage[3];
+                    logMessage += "Un superviseur a validé la demande de credit ID  " + elemMessage[3];
+                break;
+                
+            case "refusSuperviseur":
+                    logMessage += "Un superviseur a refusé la demande de credit ID  " + elemMessage[3];
                 break;
                 
         }

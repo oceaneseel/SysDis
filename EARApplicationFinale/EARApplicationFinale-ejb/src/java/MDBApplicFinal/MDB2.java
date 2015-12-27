@@ -55,12 +55,12 @@ public class MDB2 implements MessageListener {
             
             return;
         }
-        System.out.println(elemMessage[0]);
+        
         //Si le message a été validé automatiquement. Enregistrement dans la BD
         if(elemMessage[0].equalsIgnoreCase("creditValide"))
         {
             Credit c = new Credit();
-            
+        
             c.setAccorde("OK");
             c.setChargeCredit(Double.parseDouble(elemMessage[3]));
             c.setDuree(Integer.parseInt(elemMessage[4]));
@@ -90,7 +90,7 @@ public class MDB2 implements MessageListener {
             
             //Enregistrement du credit sur la BD
             em.persist(c);
-            
+
             //Envois d'un message pour que le superviseur soit au courant de l'ID
             String messageSuperviseur = "avisSuperviseur#";
             messageSuperviseur += elemMessage[1] + "#" + elemMessage[2]+"#"+elemMessage[3]+"#"+elemMessage[4]+"#";
@@ -98,16 +98,30 @@ public class MDB2 implements MessageListener {
             messageSuperviseur += c.getId();
             
             sendJMSMessageToTopicBanque(messageSuperviseur);
-            System.out.println("avis demande au superviseur");
             return;
         }
         
         
-        //valide par un superviseur
+        //validé par un superviseur
         if(elemMessage[0].equalsIgnoreCase("validationSuperviseur"))
-        {
-            Credit c = em.find(Credit.class, elemMessage[3]);
+        {         
+            Credit c = em.find(Credit.class, Integer.parseInt(elemMessage[3]));
+            if(c == null)
+                return;
+            
             c.setAccorde("OK");
+            return;
+        }
+        
+        
+        //refusé par un superviseur
+        if(elemMessage[0].equalsIgnoreCase("refusSuperviseur"))
+        {         
+            Credit c = em.find(Credit.class, Integer.parseInt(elemMessage[3]));
+            if(c == null)
+                return;
+            //on supprime
+            em.remove(c);
             return;
         }
     }
