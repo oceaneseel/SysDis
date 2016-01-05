@@ -29,6 +29,7 @@ import javax.persistence.Query;
 public class EJB2 implements EJB2Remote {
     @Resource(mappedName = "jms/topicBanque")
     private Topic topicBanque;
+    
     @Inject
     @JMSConnectionFactory("java:comp/DefaultJMSConnectionFactory")
     private JMSContext context;
@@ -53,8 +54,7 @@ public class EJB2 implements EJB2Remote {
         return clFound;
     }
 
-    // Add business logic below. (Right-click in editor and choose
-    // "Insert Code > Add Business Method")
+
     @RolesAllowed("client")
     @Override
     public List getComptes(Client c) {

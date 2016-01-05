@@ -235,6 +235,19 @@ public class VirementPanel extends javax.swing.JPanel {
         refresh();
     }//GEN-LAST:event_rafraichirButtonActionPerformed
 
+    
+    private EJB2Remote lookupEJB2Remote() {
+        try {
+            Context c = new InitialContext();
+            return (EJB2Remote) c.lookup("java:comp/env/EJB2");
+        } catch (NamingException ne) {
+            Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", ne);
+            throw new RuntimeException(ne);
+        }
+    }
+    
+    
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox compteCombo;
@@ -253,13 +266,4 @@ public class VirementPanel extends javax.swing.JPanel {
     private javax.swing.JRadioButton virementRadio;
     // End of variables declaration//GEN-END:variables
 
-    private EJB2Remote lookupEJB2Remote() {
-        try {
-            Context c = new InitialContext();
-            return (EJB2Remote) c.lookup("java:comp/env/EJB2");
-        } catch (NamingException ne) {
-            Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", ne);
-            throw new RuntimeException(ne);
-        }
-    }
 }

@@ -91,7 +91,7 @@ public class MDB2 implements MessageListener {
             //Enregistrement du credit sur la BD
             em.persist(c);
 
-            //Envois d'un message pour que le superviseur soit au courant de l'ID
+            //Envoi d'un message pour que le superviseur soit au courant de l'ID
             String messageSuperviseur = "avisSuperviseur#";
             messageSuperviseur += elemMessage[1] + "#" + elemMessage[2]+"#"+elemMessage[3]+"#"+elemMessage[4]+"#";
             messageSuperviseur += elemMessage[5] + "#" + elemMessage[6]+"#"+elemMessage[7]+"#"+elemMessage[8]+"#";
@@ -124,10 +124,6 @@ public class MDB2 implements MessageListener {
             em.remove(c);
             return;
         }
-    }
-
-    public void persist(Object object) {
-        em.persist(object);
     }
 
     private void sendJMSMessageToTopicBanque(String messageData) {
