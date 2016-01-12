@@ -48,7 +48,7 @@ public class SupervisionPanel extends javax.swing.JPanel {
     public void setMontant(double addMontant)
     {
         montantTotaltransfere += addMontant;
-        montantTransfere.setText("Montant transfere : " + String.format("%.2f", montantTotaltransfere) + " â‚¬");
+        montantTransfere.setText("Montant transfere : " + String.format("%.2f", montantTotaltransfere) + " €");
     }
     
     public void logValide(String log)

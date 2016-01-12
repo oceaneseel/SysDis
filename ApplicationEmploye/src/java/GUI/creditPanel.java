@@ -116,7 +116,6 @@ public class creditPanel extends javax.swing.JPanel {
         jScrollPane1 = new javax.swing.JScrollPane();
         listAttente = new javax.swing.JList();
         attenteTitre = new javax.swing.JLabel();
-        deconnexionButton = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         informationSubTitle = new javax.swing.JLabel();
         nomLabel = new javax.swing.JLabel();
@@ -146,13 +145,6 @@ public class creditPanel extends javax.swing.JPanel {
         attenteTitre.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         attenteTitre.setText("Demandes en attente");
 
-        deconnexionButton.setText("Déconnexion");
-        deconnexionButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                deconnexionButtonActionPerformed(evt);
-            }
-        });
-
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel1.setText("Nouvelle demande : ");
 
@@ -161,12 +153,12 @@ public class creditPanel extends javax.swing.JPanel {
 
         nomLabel.setText("Nom : ");
 
-        jLabel2.setText("Prénom : ");
+        jLabel2.setText("Pr�nom : ");
 
         adresseLAbel.setText("Adresse : ");
 
         informationSubTitle1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        informationSubTitle1.setText("Informations sur le crédit : ");
+        informationSubTitle1.setText("Informations sur le cr�dit : ");
 
         montantLabel.setText("Montant : ");
 
@@ -174,13 +166,13 @@ public class creditPanel extends javax.swing.JPanel {
 
         jLabel3.setText("%");
 
-        dureeLabel.setText("Durée :");
+        dureeLabel.setText("Dur�e :");
 
         jLabel4.setText("an(s)");
 
         jLabel5.setText("Salaire : ");
 
-        chargeLabel.setText("Charge de crédits : ");
+        chargeLabel.setText("Charge de cr�dits : ");
 
         demandeButton.setText("Envoyer la demande ");
         demandeButton.addActionListener(new java.awt.event.ActionListener() {
@@ -242,26 +234,18 @@ public class creditPanel extends javax.swing.JPanel {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(235, 235, 235)
                         .addComponent(demandeButton)))
+                .addGap(50, 50, 50)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(50, 50, 50)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(attenteTitre)
-                                .addGap(28, 28, 28))
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap(20, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(deconnexionButton, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(24, 24, 24))))
+                        .addComponent(attenteTitre)
+                        .addGap(28, 28, 28))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(20, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(deconnexionButton)
-                .addGap(7, 35, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(attenteTitre)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 348, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -302,17 +286,11 @@ public class creditPanel extends javax.swing.JPanel {
                     .addComponent(jLabel4))
                 .addGap(62, 62, 62)
                 .addComponent(demandeButton)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
                 .addComponent(errorLabel)
                 .addGap(49, 49, 49))
         );
     }// </editor-fold>//GEN-END:initComponents
-
-    private void deconnexionButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deconnexionButtonActionPerformed
-        //Changement de fenêtre
-        frameEmploye fe = (frameEmploye)SwingUtilities.getWindowAncestor(this);
-        fe.changeCard("connexion");
-    }//GEN-LAST:event_deconnexionButtonActionPerformed
     
     
     /*Création d'un objet credit et envois à l'EJB pour le traitement*/
@@ -456,7 +434,6 @@ public class creditPanel extends javax.swing.JPanel {
     private javax.swing.JLabel attenteTitre;
     private javax.swing.JLabel chargeLabel;
     private javax.swing.JTextField chargeTextField;
-    private javax.swing.JButton deconnexionButton;
     private javax.swing.JButton demandeButton;
     private javax.swing.JLabel dureeLabel;
     private javax.swing.JTextField dureeTextField;

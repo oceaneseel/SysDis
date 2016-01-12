@@ -53,8 +53,9 @@ public class VirementPanel extends javax.swing.JPanel {
             compteCombo.addItem(c);
         
         //On rafraichis les sous panneau
-        transfertPanel.setTransfertPanel(listCompte, (Compte)compteCombo.getSelectedItem(), this);
-        virementAutreComptePanel.setPanel((Compte)compteCombo.getSelectedItem(), this);
+        
+        transfertPanel1.setTransfertPanel(listCompte, (Compte)compteCombo.getSelectedItem(), this);
+        virementAutreComptePanel1.setPanel((Compte)compteCombo.getSelectedItem(), this);
         
     }
 
@@ -78,9 +79,8 @@ public class VirementPanel extends javax.swing.JPanel {
         virementRadio = new javax.swing.JRadioButton();
         destinataireLabel = new javax.swing.JLabel();
         panelOperation = new javax.swing.JPanel();
-        transfertPanel = new GUI.transfertPanel();
-        virementAutreComptePanel = new GUI.virementAutreComptePanel();
-        logoutButton = new javax.swing.JButton();
+        transfertPanel1 = new GUI.transfertPanel();
+        virementAutreComptePanel1 = new GUI.virementAutreComptePanel();
         rafraichirButton = new javax.swing.JButton();
 
         titreLabel.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
@@ -119,15 +119,8 @@ public class VirementPanel extends javax.swing.JPanel {
         destinataireLabel.setText("Destinataire : ");
 
         panelOperation.setLayout(new java.awt.CardLayout());
-        panelOperation.add(transfertPanel, "transfert");
-        panelOperation.add(virementAutreComptePanel, "virement");
-
-        logoutButton.setText("Déconnexion");
-        logoutButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                logoutButtonActionPerformed(evt);
-            }
-        });
+        panelOperation.add(transfertPanel1, "transfert");
+        panelOperation.add(virementAutreComptePanel1, "virement");
 
         rafraichirButton.setText("Rafraichir");
         rafraichirButton.addActionListener(new java.awt.event.ActionListener() {
@@ -163,18 +156,14 @@ public class VirementPanel extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addGap(244, 244, 244)
                 .addComponent(titreLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(logoutButton)
-                .addGap(30, 30, 30))
+                .addGap(30, 275, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(titreLabel)
-                    .addComponent(logoutButton))
-                .addGap(6, 6, 6)
+                .addComponent(titreLabel)
+                .addGap(9, 9, 9)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(errorRefreshLabel)
                     .addComponent(rafraichirButton))
@@ -202,7 +191,7 @@ public class VirementPanel extends javax.swing.JPanel {
             return;
         
         soldeLabel.setText("Solde : " + String.format("%.2f", c.getSolde()) + " â‚¬");
-        transfertPanel.setTransfertPanel(listCompte, c, this);
+        transfertPanel1.setTransfertPanel(listCompte, c, this);
     }//GEN-LAST:event_compteComboActionPerformed
 
     private void transfertRadioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_transfertRadioActionPerformed
@@ -222,14 +211,6 @@ public class VirementPanel extends javax.swing.JPanel {
         //Changement du panneau de transfert
         ((CardLayout)panelOperation.getLayout()).show(panelOperation, "virement");
     }//GEN-LAST:event_virementRadioActionPerformed
-
-    private void logoutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutButtonActionPerformed
-        //Recuperation de la fenetre parente
-        frameClient fc = (frameClient)SwingUtilities.getWindowAncestor(this);
-        
-        fc.setCurUser(null);
-        fc.changeCard("connexion");
-    }//GEN-LAST:event_logoutButtonActionPerformed
 
     private void rafraichirButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rafraichirButtonActionPerformed
         refresh();
@@ -254,15 +235,14 @@ public class VirementPanel extends javax.swing.JPanel {
     private javax.swing.JLabel destinataireLabel;
     private javax.swing.JLabel errorRefreshLabel;
     private javax.swing.ButtonGroup groupChoixDestinataire;
-    private javax.swing.JButton logoutButton;
     private javax.swing.JPanel panelOperation;
     private javax.swing.JButton rafraichirButton;
     private javax.swing.JLabel soldeLabel;
     private javax.swing.JLabel sourceLabel;
     private javax.swing.JLabel titreLabel;
-    private GUI.transfertPanel transfertPanel;
+    private GUI.transfertPanel transfertPanel1;
     private javax.swing.JRadioButton transfertRadio;
-    private GUI.virementAutreComptePanel virementAutreComptePanel;
+    private GUI.virementAutreComptePanel virementAutreComptePanel1;
     private javax.swing.JRadioButton virementRadio;
     // End of variables declaration//GEN-END:variables
 
